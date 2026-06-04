@@ -1,32 +1,26 @@
-# SIGNAL Implementation Plan: Triple Design Theme Switcher
+# SIGNAL: Swiss Dossier Hybrid Model Implementation Plan
 
-We are implementing all three distinct design movements from our brainstorming as live, switchable themes in a single, high-fidelity React prototype.
+We are combining the **Swiss Editorial** design with key tactile assets from the **Mid-Century Archivist** to create a singular, master-level **"Swiss Dossier"** layout.
 
-- [x] Phase 1: Theme Switcher Context & Global CSS Setup
-  - [x] Update `client/index.html` with all required Google Fonts for all three themes.
-  - [x] Implement a custom React context (`ThemeContext.tsx` or similar) to manage:
-    - Active design movement: `swiss`, `terminal`, `archivist`
-    - Depth level: `accessible`, `briefed`, `technical`
-    - Personalization profile (Role, Seniority, Focus sectors)
-  - [x] Set up Tailwind theme configurations or dynamic class wrappers in `client/src/index.css` to accommodate all three movements.
+- [x] Phase 1: Define Swiss Dossier CSS Variables
+  - [x] Add the `theme-hybrid` class configuration in `client/src/index.css`.
+  - [x] Combine warm creamy paper background (`oklch(0.985 0.004 70)`) with typewriter black text (`oklch(0.18 0.01 110)`).
+  - [x] Configure typography: **Playfair Display** for headlines, **Lora** for body reading, and **Space Mono** for metadata stamps and folder tags.
 
-- [x] Phase 2: Mock Intelligence Database
-  - [x] Create a comprehensive mock data file (`client/src/lib/mockData.ts`) containing premium-quality briefings.
-  - [x] Ensure content spans AI, Finance, and Semiconductors with interconnected themes.
-  - [x] Provide three levels of text depth (accessible, briefed, technical) for every story.
-  - [x] Add relevance scoring variables based on roles (e.g., Analyst, Founder, Executive).
+- [x] Phase 2: Build the SwissDossierLayout Component
+  - [x] Create `client/src/components/layouts/SwissDossierLayout.tsx`.
+  - [x] Implement Swiss grid structure: 12-column layout, 0.5px hairline dividers, clean margins.
+  - [x] Integrate Archivist elements:
+    - Overlapping folder tab at the top with classification metadata.
+    - Diagonal red ink stamps ("CONFIDENTIAL" / "EYES ONLY").
+    - Transparent highlighter overlay effect on the "Why It Matters" section.
+    - Typewriter-style source counts and read times.
 
-- [x] Phase 3: Core Layouts for the Three Movements
-  - [x] **Swiss Editorial**: Minimalist grid, 0.5px hairlines, Playfair Display/Lora typography, cream paper colors, high text density.
-  - [x] **Dark Terminal**: Dark obsidian background, SF Mono/Geist typography, cyber-cyan/amber glowing highlights, 3-pane terminal structure, interactive connectivity map.
-  - [x] **Mid-Century Archivist**: Manila folder beige, EB Garamond/Courier typography, terracotta/sage highlights, tactile overlapping card tabs, highlighter text overlays, and ink stamp decorations.
+- [x] Phase 3: Integrate Hybrid Model in Application Routing
+  - [x] Add the "Swiss Dossier" (Hybrid) option to `ThemeSelector.tsx` and set it as the default choice.
+  - [x] Update `Home.tsx` to render `SwissDossierLayout` as the default view.
 
-- [x] Phase 4: Personalized Onboarding & Personalization Features
-  - [x] Build a premium onboarding overlay or wizard to let readers select their Role, Seniority, and Focus sectors.
-  - [x] Implement real-time feed re-ranking based on user selections.
-  - [x] Add the Depth Level Selector (accessible, briefed, technical) with dynamic content swapping.
-
-- [ ] Phase 5: Final Polish, Verification, & Delivery
-  - [ ] Check responsive design for all three layouts (mobile-first layout adjustments).
-  - [ ] Add micro-interactions (hover animations, click feedback, folder sliding, glowing pulses).
-  - [ ] Save checkpoint and deliver.
+- [x] Phase 4: Polish, Verify, & Save Checkpoint
+  - [x] Review responsive behavior of folder tabs and stamps.
+  - [x] Ensure perfect typography contrast and visual harmony.
+  - [x] Save final checkpoint and deliver.

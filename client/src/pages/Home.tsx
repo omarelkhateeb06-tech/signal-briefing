@@ -1,17 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "../contexts/ThemeContext";
 import { MOCK_STORIES, BriefingStory } from "../lib/mockData";
+import { SwissDossierLayout } from "../components/layouts/SwissDossierLayout";
 import { SwissLayout } from "../components/layouts/SwissLayout";
 import { TerminalLayout } from "../components/layouts/TerminalLayout";
 import { ArchivistLayout } from "../components/layouts/ArchivistLayout";
 import { ThemeSelector } from "../components/ThemeSelector";
 import { OnboardingModal } from "../components/OnboardingModal";
-import { ArrowUpRight, Cpu, Layers } from "lucide-react";
 
 export default function Home() {
-  const { movement, profile } = useTheme();
+  const { movement, setMovement, profile } = useTheme();
   const [isOnboardingOpen, setIsOnboardingOpen] = useState<boolean>(false);
   const [filteredStories, setFilteredStories] = useState<BriefingStory[]>(MOCK_STORIES);
+
+  // Default to the new hybrid "Swiss Dossier" design system on first load
+  useEffect(() => {
+    const saved = localStorage.getItem("signal-movement");
+    if (!saved) {
+      setMovement("hybrid" as any);
+    }
+  }, [setMovement]);
 
   // Trigger onboarding on first visit
   useEffect(() => {
@@ -52,6 +60,13 @@ export default function Home() {
     <div className="relative min-h-screen">
       
       {/* Dynamic layout selection based on current active design movement */}
+      {((movement as string) === "hybrid" || !movement) && (
+        <SwissDossierLayout 
+          stories={filteredStories} 
+          onOpenOnboarding={() => setIsOnboardingOpen(true)} 
+        />
+      )}
+
       {movement === "swiss" && (
         <SwissLayout 
           stories={filteredStories} 

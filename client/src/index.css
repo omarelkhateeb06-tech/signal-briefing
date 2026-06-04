@@ -46,9 +46,48 @@
 }
 
 /* -----------------------------------------
-   SWISS EDITORIAL MINIMALIST (Default Theme)
+   HYBRID SWISS DOSSIER (New Master Default)
    ----------------------------------------- */
-:root, .theme-swiss {
+:root, .theme-hybrid {
+  --font-serif-dynamic: "Playfair Display", "Georgia", serif;
+  --font-sans-dynamic: "Lora", "Merriweather", serif;
+  --font-mono-dynamic: "Space Mono", "Courier Prime", monospace;
+
+  --background: oklch(0.985 0.004 70);       /* Clean warm paper white */
+  --foreground: oklch(0.18 0.01 110);        /* Deep ink black */
+  
+  --card: oklch(0.965 0.006 75);             /* Subtle folder beige/gray */
+  --card-foreground: oklch(0.18 0.01 110);
+  
+  --popover: oklch(0.985 0.004 70);
+  --popover-foreground: oklch(0.18 0.01 110);
+  
+  --primary: oklch(0.38 0.11 35);             /* Rich terracotta/copper */
+  --primary-foreground: oklch(0.985 0.004 70);
+  
+  --secondary: oklch(0.94 0.008 75);          /* Muted document background */
+  --secondary-foreground: oklch(0.35 0.015 110);
+  
+  --muted: oklch(0.92 0.008 75);
+  --muted-foreground: oklch(0.45 0.015 110);
+  
+  --accent: oklch(0.88 0.03 120);             /* Sage green highlight */
+  --accent-foreground: oklch(0.25 0.08 120);
+  
+  --destructive: oklch(0.50 0.14 45);         /* Terracotta/Red ink stamp */
+  --destructive-foreground: oklch(0.98 0.002 70);
+  
+  --border: oklch(0.85 0.006 75);             /* Sharp paper-crease border */
+  --input: oklch(0.85 0.006 75);
+  --ring: oklch(0.38 0.11 35);
+  
+  --radius: 0px;                              /* Sharp editorial edges */
+}
+
+/* -----------------------------------------
+   SWISS EDITORIAL MINIMALIST
+   ----------------------------------------- */
+.theme-swiss {
   --font-serif-dynamic: "Playfair Display", "Georgia", serif;
   --font-sans-dynamic: "Lora", "Merriweather", serif;
   --font-mono-dynamic: "DM Mono", "Courier New", monospace;
@@ -81,7 +120,7 @@
   --input: oklch(0.88 0.005 70);
   --ring: oklch(0.38 0.11 35);
   
-  --radius: 0px;                              /* Pure sharp corners */
+  --radius: 0px;
 }
 
 /* -----------------------------------------
@@ -120,7 +159,7 @@
   --input: oklch(0.22 0.01 240);
   --ring: oklch(0.78 0.16 200);
   
-  --radius: 0.125rem;                        /* Subtle tech rounding */
+  --radius: 0.125rem;
 }
 
 /* -----------------------------------------
@@ -159,7 +198,7 @@
   --input: oklch(0.75 0.015 75);
   --ring: oklch(0.50 0.14 45);
   
-  --radius: 0.375rem;                        /* Folder tab curve */
+  --radius: 0.375rem;
 }
 
 @layer base {
@@ -170,7 +209,14 @@
     @apply bg-background text-foreground font-sans antialiased;
   }
   
-  /* Textured backgrounds for Swiss and Archivist, grid/scanline for Terminal */
+  /* Textured backgrounds */
+  .theme-hybrid body {
+    background-image: 
+      radial-gradient(rgba(0, 0, 0, 0.01) 1.5px, transparent 0),
+      linear-gradient(to right, rgba(0, 0, 0, 0.003) 1px, transparent 1px);
+    background-size: 24px 24px, 100px 100%;
+  }
+
   .theme-swiss body {
     background-image: radial-gradient(rgba(0, 0, 0, 0.012) 1px, transparent 0);
     background-size: 20px 24px;
@@ -253,11 +299,11 @@
     box-shadow: 0 0 10px rgba(245, 158, 11, 0.15);
   }
   
-  /* Archivist: Highlighter effect */
+  /* Archivist & Hybrid: Highlighter effect */
   .archivist-highlight {
-    background: linear-gradient(120deg, rgba(136, 196, 119, 0.25) 0%, rgba(136, 196, 119, 0.15) 100%);
+    background: linear-gradient(120deg, rgba(136, 196, 119, 0.22) 0%, rgba(136, 196, 119, 0.12) 100%);
     padding: 0 4px;
-    border-radius: 2px;
+    border-radius: 1px;
   }
   
   .archivist-stamp {
@@ -266,6 +312,19 @@
     text-transform: uppercase;
     font-weight: bold;
     transform: rotate(-3deg);
+    display: inline-block;
+  }
+
+  .hybrid-stamp-red {
+    border: 1.5px solid oklch(0.50 0.14 45);
+    color: oklch(0.50 0.14 45);
+    text-transform: uppercase;
+    font-weight: bold;
+    transform: rotate(-1.5deg);
+    padding: 2px 8px;
+    font-family: "Space Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
     display: inline-block;
   }
 }
