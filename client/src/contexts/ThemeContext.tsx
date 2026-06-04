@@ -1,64 +1,112 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 
-type Theme = "light" | "dark";
+export type DesignMovement = "swiss" | "terminal" | "archivist";
+export type DepthLevel = "accessible" | "briefed" | "technical";
+
+export interface UserProfile {
+  name: string;
+  role: string;
+  seniority: "junior" | "mid" | "senior" | "executive";
+  sectors: ("ai" | "finance" | "semiconductors")[];
+  hasCompletedOnboarding: boolean;
+}
 
 interface ThemeContextType {
-  theme: Theme;
-  toggleTheme?: () => void;
-  switchable: boolean;
+  movement: DesignMovement;
+  setMovement: (movement: DesignMovement) => void;
+  depth: DepthLevel;
+  setDepth: (depth: DepthLevel) => void;
+  profile: UserProfile;
+  updateProfile: (profile: Partial<UserProfile>) => void;
+  resetOnboarding: () => void;
 }
+
+const defaultProfile: UserProfile = {
+  name: "Reader",
+  role: "General Practitioner",
+  seniority: "senior",
+  sectors: ["ai", "finance", "semiconductors"],
+  hasCompletedOnboarding: false,
+};
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-interface ThemeProviderProps {
-  children: React.ReactNode;
-  defaultTheme?: Theme;
-  switchable?: boolean;
-}
-
-export function ThemeProvider({
-  children,
-  defaultTheme = "light",
-  switchable = false,
-}: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (switchable) {
-      const stored = localStorage.getItem("theme");
-      return (stored as Theme) || defaultTheme;
-    }
-    return defaultTheme;
+export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [movement, setMovementState] = useState<DesignMovement>(() => {
+    const saved = localStorage.getItem("signal-movement");
+    return (saved as DesignMovement) || "swiss";
   });
 
+  const [depth, setDepth] = useState<DepthLevel>(() => {
+    const saved = localStorage.getItem("signal-depth");
+    return (saved as DepthLevel) || "briefed";
+  });
+
+  const [profile, setProfile] = useState<UserProfile>(() => {
+    const saved = localStorage.getItem("signal-profile");
+    return saved ? JSON.parse(saved) : defaultProfile;
+  });
+
+  // Apply CSS class to document root for the design movement
   useEffect(() => {
-    const root = document.documentElement;
-    if (theme === "dark") {
+    const root = window.document.documentElement;
+    root.classList.remove("theme-swiss", "theme-terminal", "theme-archivist");
+    root.classList.add(`theme-${movement}`);
+    
+    // Terminal theme uses a dark theme style by default
+    if (movement === "terminal") {
       root.classList.add("dark");
     } else {
       root.classList.remove("dark");
     }
+    
+    localStorage.setItem("signal-movement", movement);
+  }, [movement]);
 
-    if (switchable) {
-      localStorage.setItem("theme", theme);
-    }
-  }, [theme, switchable]);
+  useEffect(() => {
+    localStorage.setItem("signal-depth", depth);
+  }, [depth]);
 
-  const toggleTheme = switchable
-    ? () => {
-        setTheme(prev => (prev === "light" ? "dark" : "light"));
-      }
-    : undefined;
+  useEffect(() => {
+    localStorage.setItem("signal-profile", JSON.stringify(profile));
+  }, [profile]);
+
+  const setMovement = (newMovement: DesignMovement) => {
+    setMovementState(newMovement);
+  };
+
+  const updateProfile = (updatedFields: Partial<UserProfile>) => {
+    setProfile((prev) => ({ ...prev, ...updatedFields }));
+  };
+
+  const resetOnboarding = () => {
+    setProfile({
+      ...defaultProfile,
+      hasCompletedOnboarding: false,
+    });
+  };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, switchable }}>
+    <ThemeContext.Provider
+      value={{
+        movement,
+        setMovement,
+        depth,
+        setDepth,
+        profile,
+        updateProfile,
+        resetOnboarding,
+      }}
+    >
       {children}
     </ThemeContext.Provider>
   );
-}
+};
 
-export function useTheme() {
+export const useTheme = () => {
   const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error("useTheme must be used within ThemeProvider");
+  if (context === undefined) {
+    throw new Error("useTheme must be used within a ThemeProvider");
   }
   return context;
-}
+};
