@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTheme, UserProfile } from "../contexts/ThemeContext";
-import { X, ChevronRight, Compass, Shield, Award, Cpu, Database, TrendingUp } from "lucide-react";
+import { X, ChevronRight, Cpu, Database, TrendingUp } from "lucide-react";
 
 interface OnboardingModalProps {
   isOpen: boolean;
@@ -17,7 +17,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
 
   if (!isOpen) return null;
 
-  const toggleSector = (sector: "ai" | "finance" | "semiconductors") => {
+  const toggleSector = (sector: string) => {
     if (sectors.includes(sector)) {
       if (sectors.length > 1) {
         setSectors(sectors.filter((s) => s !== sector));
@@ -41,7 +41,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-card border-2 border-border w-full max-w-lg shadow-2xl relative rounded overflow-hidden">
+      <div className="bg-card border-2 border-border w-full max-w-lg shadow-2xl relative rounded overflow-hidden bg-white">
         
         {/* Onboarding Header */}
         <div className="bg-secondary/30 border-b border-border px-6 py-4 flex justify-between items-center">
@@ -101,10 +101,10 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
             </label>
             <div className="grid grid-cols-2 gap-2">
               {([
-                { id: "junior", label: "Junior Practitioner" },
-                { id: "mid", label: "Adjacent Professional" },
-                { id: "senior", label: "Senior Operator" },
-                { id: "executive", label: "C-Suite Executive" }
+                { id: "analyst", label: "VC Analyst" },
+                { id: "founder", label: "Startup Founder" },
+                { id: "executive", label: "C-Suite Executive" },
+                { id: "general", label: "General Practitioner" }
               ] as const).map((item) => (
                 <button
                   type="button"
@@ -132,9 +132,9 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ isOpen, onClos
             </label>
             <div className="grid grid-cols-3 gap-2">
               {([
-                { id: "ai", label: "AI & ML", icon: Cpu },
-                { id: "finance", label: "Capital Flows", icon: TrendingUp },
-                { id: "semiconductors", label: "Silicon & Litho", icon: Database }
+                { id: "AI", label: "AI & ML", icon: Cpu },
+                { id: "Finance", label: "Capital Flows", icon: TrendingUp },
+                { id: "Semiconductors", label: "Silicon & Litho", icon: Database }
               ] as const).map((item) => {
                 const isSelected = sectors.includes(item.id);
                 const Icon = item.icon;

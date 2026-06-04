@@ -1,25 +1,27 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 export type DesignMovement = 
-  | "contrarian"   // Design 1: Workspace Triage
-  | "principles"   // Design 2: Legal Brief
-  | "expansionist" // Design 3: Intelligence Platform
-  | "outsider"     // Design 4: Dark Conviction
-  | "executor"     // Design 5: Current + Polish (Original Swiss)
-  | "hormozi"      // Design 6: The Offer Machine
-  | "naval"        // Design 7: Pure Signal
-  | "rubin";       // Design 8: The Quiet Letter
+  | "swiss-command"    // Prompt 1: Swiss Command Center
+  | "swiss-slideout"   // Prompt 2: Swiss Slideout Drawer
+  | "swiss-dossier"    // Prompt 3: Swiss Intelligence Dossier
+  | "contrarian"       // Workspace Triage
+  | "principles"       // Legal Brief
+  | "expansionist"     // Intelligence Platform
+  | "outsider"         // Dark Conviction
+  | "executor"         // Original Swiss
+  | "hormozi"          // The Offer Machine
+  | "naval"            // Pure Signal
+  | "rubin";           // The Quiet Letter
 
 export type DepthLevel = "accessible" | "briefed" | "technical";
 
 export interface UserProfile {
   name: string;
   role: string;
-  seniority: "junior" | "mid" | "senior" | "executive";
-  sectors: ("ai" | "finance" | "semiconductors")[];
-  hasCompletedOnboarding: boolean;
+  seniority: "analyst" | "founder" | "executive" | "general";
+  sectors: string[];
   isPro: boolean;
-  readCount: number;
+  hasCompletedOnboarding: boolean;
 }
 
 interface ThemeContextType {
@@ -29,88 +31,74 @@ interface ThemeContextType {
   setDepth: (depth: DepthLevel) => void;
   profile: UserProfile;
   updateProfile: (profile: Partial<UserProfile>) => void;
-  resetOnboarding: () => void;
 }
-
-const defaultProfile: UserProfile = {
-  name: "Reader",
-  role: "Semiconductor Analyst",
-  seniority: "senior",
-  sectors: ["ai", "finance", "semiconductors"],
-  hasCompletedOnboarding: true,
-  isPro: false,
-  readCount: 0,
-};
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [movement, setMovementState] = useState<DesignMovement>(() => {
-    const saved = localStorage.getItem("signal-movement-v4");
-    return (saved as DesignMovement) || "contrarian";
+  // Default to swiss-command
+  const [movement, setMovementState] = useState<DesignMovement>("swiss-command");
+  const [depth, setDepth] = useState<DepthLevel>("briefed");
+  const [profile, setProfile] = useState<UserProfile>({
+    name: "Alex Mercer",
+    role: "Semiconductor VC Analyst",
+    seniority: "analyst",
+    sectors: ["AI", "Semiconductors", "Finance"],
+    isPro: false,
+    hasCompletedOnboarding: true, // Default to true so they can browse, can trigger onboarding on click
   });
 
-  const [depth, setDepth] = useState<DepthLevel>(() => {
-    const saved = localStorage.getItem("signal-depth");
-    return (saved as DepthLevel) || "briefed";
-  });
-
-  const [profile, setProfile] = useState<UserProfile>(() => {
-    const saved = localStorage.getItem("signal-profile-v4");
-    return saved ? JSON.parse(saved) : defaultProfile;
-  });
-
-  // Apply CSS class to document root for the design movement
+  // Sync design movement to local storage
   useEffect(() => {
-    const root = window.document.documentElement;
-    root.className = ""; // Reset all classes
-    root.classList.add(`theme-${movement}`);
-    
-    // Outsider (Dark Conviction) is a dark theme
-    if (movement === "outsider") {
-      root.classList.add("dark");
+    const savedMovement = localStorage.getItem("signal-movement-v5") as DesignMovement;
+    if (savedMovement) {
+      setMovementState(savedMovement);
     } else {
-      root.classList.remove("dark");
+      setMovementState("swiss-command");
     }
-    
-    localStorage.setItem("signal-movement-v4", movement);
-  }, [movement]);
 
-  useEffect(() => {
-    localStorage.setItem("signal-depth", depth);
-  }, [depth]);
-
-  useEffect(() => {
-    localStorage.setItem("signal-profile-v4", JSON.stringify(profile));
-  }, [profile]);
+    const savedProfile = localStorage.getItem("signal-profile-v5");
+    if (savedProfile) {
+      setProfile(JSON.parse(savedProfile));
+    }
+  }, []);
 
   const setMovement = (newMovement: DesignMovement) => {
     setMovementState(newMovement);
+    localStorage.setItem("signal-movement-v5", newMovement);
+
+    // Apply dynamic HTML body theme class
+    const body = document.documentElement;
+    body.className = ""; // clear old themes
+    body.classList.add(`theme-${newMovement}`);
+    
+    // Auto-toggle dark mode class for Outsider (Dark Conviction)
+    if (newMovement === "outsider") {
+      body.classList.add("dark");
+    } else {
+      body.classList.remove("dark");
+    }
   };
 
-  const updateProfile = (updatedFields: Partial<UserProfile>) => {
-    setProfile((prev) => ({ ...prev, ...updatedFields }));
-  };
-
-  const resetOnboarding = () => {
-    setProfile({
-      ...defaultProfile,
-      hasCompletedOnboarding: false,
+  const updateProfile = (newFields: Partial<UserProfile>) => {
+    setProfile((prev) => {
+      const updated = { ...prev, ...newFields };
+      localStorage.setItem("signal-profile-v5", JSON.stringify(updated));
+      return updated;
     });
   };
 
+  // Initial class setup on mount
+  useEffect(() => {
+    const body = document.documentElement;
+    body.classList.add(`theme-${movement}`);
+    if (movement === "outsider") {
+      body.classList.add("dark");
+    }
+  }, [movement]);
+
   return (
-    <ThemeContext.Provider
-      value={{
-        movement,
-        setMovement,
-        depth,
-        setDepth,
-        profile,
-        updateProfile,
-        resetOnboarding,
-      }}
-    >
+    <ThemeContext.Provider value={{ movement, setMovement, depth, setDepth, profile, updateProfile }}>
       {children}
     </ThemeContext.Provider>
   );
@@ -118,7 +106,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
 export const useTheme = () => {
   const context = useContext(ThemeContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error("useTheme must be used within a ThemeProvider");
   }
   return context;
