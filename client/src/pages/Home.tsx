@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "../contexts/ThemeContext";
 import { MOCK_STORIES, BriefingStory } from "../lib/mockData";
-import { SwissDossierLayout } from "../components/layouts/SwissDossierLayout";
-import { SwissLayout } from "../components/layouts/SwissLayout";
-import { TerminalLayout } from "../components/layouts/TerminalLayout";
-import { ArchivistLayout } from "../components/layouts/ArchivistLayout";
+import { ContrarianLayout } from "../components/layouts/ContrarianLayout";
+import { PrinciplesLayout } from "../components/layouts/PrinciplesLayout";
+import { ExpansionistLayout } from "../components/layouts/ExpansionistLayout";
+import { OutsiderLayout } from "../components/layouts/OutsiderLayout";
+import { ExecutorLayout } from "../components/layouts/ExecutorLayout";
+import { HormoziLayout } from "../components/layouts/HormoziLayout";
+import { NavalLayout } from "../components/layouts/NavalLayout";
+import { RubinLayout } from "../components/layouts/RubinLayout";
 import { ThemeSelector } from "../components/ThemeSelector";
 import { OnboardingModal } from "../components/OnboardingModal";
 
@@ -13,11 +17,11 @@ export default function Home() {
   const [isOnboardingOpen, setIsOnboardingOpen] = useState<boolean>(false);
   const [filteredStories, setFilteredStories] = useState<BriefingStory[]>(MOCK_STORIES);
 
-  // Default to the new hybrid "Swiss Dossier" design system on first load
+  // Default to the Contrarian design on first load
   useEffect(() => {
-    const saved = localStorage.getItem("signal-movement");
+    const saved = localStorage.getItem("signal-movement-v4");
     if (!saved) {
-      setMovement("hybrid" as any);
+      setMovement("contrarian");
     }
   }, [setMovement]);
 
@@ -59,30 +63,58 @@ export default function Home() {
   return (
     <div className="relative min-h-screen">
       
-      {/* Dynamic layout selection based on current active design movement */}
-      {((movement as string) === "hybrid" || !movement) && (
-        <SwissDossierLayout 
+      {/* Render layout based on active design movement */}
+      {movement === "contrarian" && (
+        <ContrarianLayout 
           stories={filteredStories} 
           onOpenOnboarding={() => setIsOnboardingOpen(true)} 
         />
       )}
 
-      {movement === "swiss" && (
-        <SwissLayout 
+      {movement === "principles" && (
+        <PrinciplesLayout 
           stories={filteredStories} 
           onOpenOnboarding={() => setIsOnboardingOpen(true)} 
         />
       )}
 
-      {movement === "terminal" && (
-        <TerminalLayout 
+      {movement === "expansionist" && (
+        <ExpansionistLayout 
           stories={filteredStories} 
           onOpenOnboarding={() => setIsOnboardingOpen(true)} 
         />
       )}
 
-      {movement === "archivist" && (
-        <ArchivistLayout 
+      {movement === "outsider" && (
+        <OutsiderLayout 
+          stories={filteredStories} 
+          onOpenOnboarding={() => setIsOnboardingOpen(true)} 
+        />
+      )}
+
+      {movement === "executor" && (
+        <ExecutorLayout 
+          stories={filteredStories} 
+          onOpenOnboarding={() => setIsOnboardingOpen(true)} 
+        />
+      )}
+
+      {movement === "hormozi" && (
+        <HormoziLayout 
+          stories={filteredStories} 
+          onOpenOnboarding={() => setIsOnboardingOpen(true)} 
+        />
+      )}
+
+      {movement === "naval" && (
+        <NavalLayout 
+          stories={filteredStories} 
+          onOpenOnboarding={() => setIsOnboardingOpen(true)} 
+        />
+      )}
+
+      {movement === "rubin" && (
+        <RubinLayout 
           stories={filteredStories} 
           onOpenOnboarding={() => setIsOnboardingOpen(true)} 
         />

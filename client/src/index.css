@@ -28,11 +28,6 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
   
   /* Dynamic fonts based on active theme */
   --font-serif: var(--font-serif-dynamic);
@@ -42,294 +37,349 @@
 
 /* Base variables */
 :root {
-  --radius: 0.125rem;
+  --radius: 0px;
 }
 
-/* -----------------------------------------
-   HYBRID SWISS DOSSIER (New Master Default)
-   ----------------------------------------- */
-:root, .theme-hybrid {
-  --font-serif-dynamic: "Playfair Display", "Georgia", serif;
-  --font-sans-dynamic: "Lora", "Merriweather", serif;
-  --font-mono-dynamic: "Space Mono", "Courier Prime", monospace;
+/* -------------------------------------------------
+   DESIGN 1 — THE CONTRARIAN: "WORKSPACE TRIAGE"
+   ------------------------------------------------- */
+.theme-contrarian {
+  --font-serif-dynamic: "Inter", sans-serif;
+  --font-sans-dynamic: "Inter", sans-serif;
+  --font-mono-dynamic: "JetBrains Mono", monospace;
 
-  --background: oklch(0.985 0.004 70);       /* Clean warm paper white */
-  --foreground: oklch(0.18 0.01 110);        /* Deep ink black */
+  --background: #FAFAFA;
+  --foreground: #1A1A1A;
   
-  --card: oklch(0.965 0.006 75);             /* Subtle folder beige/gray */
-  --card-foreground: oklch(0.18 0.01 110);
+  --card: #FFFFFF;
+  --card-foreground: #1A1A1A;
   
-  --popover: oklch(0.985 0.004 70);
-  --popover-foreground: oklch(0.18 0.01 110);
+  --popover: #FAFAFA;
+  --popover-foreground: #1A1A1A;
   
-  --primary: oklch(0.38 0.11 35);             /* Rich terracotta/copper */
-  --primary-foreground: oklch(0.985 0.004 70);
+  --primary: #E04E39;         /* Urgency red-orange */
+  --primary-foreground: #FFFFFF;
   
-  --secondary: oklch(0.94 0.008 75);          /* Muted document background */
-  --secondary-foreground: oklch(0.35 0.015 110);
+  --secondary: #F0F0F0;
+  --secondary-foreground: #555555;
   
-  --muted: oklch(0.92 0.008 75);
-  --muted-foreground: oklch(0.45 0.015 110);
+  --muted: #E5E5E5;
+  --muted-foreground: #777777;
   
-  --accent: oklch(0.88 0.03 120);             /* Sage green highlight */
-  --accent-foreground: oklch(0.25 0.08 120);
+  --accent: #E04E39;
+  --accent-foreground: #FFFFFF;
   
-  --destructive: oklch(0.50 0.14 45);         /* Terracotta/Red ink stamp */
-  --destructive-foreground: oklch(0.98 0.002 70);
+  --destructive: #E04E39;
+  --destructive-foreground: #FFFFFF;
   
-  --border: oklch(0.85 0.006 75);             /* Sharp paper-crease border */
-  --input: oklch(0.85 0.006 75);
-  --ring: oklch(0.38 0.11 35);
-  
-  --radius: 0px;                              /* Sharp editorial edges */
-}
-
-/* -----------------------------------------
-   SWISS EDITORIAL MINIMALIST
-   ----------------------------------------- */
-.theme-swiss {
-  --font-serif-dynamic: "Playfair Display", "Georgia", serif;
-  --font-sans-dynamic: "Lora", "Merriweather", serif;
-  --font-mono-dynamic: "DM Mono", "Courier New", monospace;
-
-  --background: oklch(0.985 0.004 70);       /* Warm paper off-white */
-  --foreground: oklch(0.20 0.01 70);         /* Deep charcoal ink */
-  
-  --card: oklch(0.975 0.005 70);             /* Slightly darker warm paper */
-  --card-foreground: oklch(0.20 0.01 70);
-  
-  --popover: oklch(0.985 0.004 70);
-  --popover-foreground: oklch(0.20 0.01 70);
-  
-  --primary: oklch(0.38 0.11 35);             /* Rich terracotta/copper */
-  --primary-foreground: oklch(0.985 0.004 70);
-  
-  --secondary: oklch(0.95 0.006 70);          /* Soft paper gray */
-  --secondary-foreground: oklch(0.35 0.01 70);
-  
-  --muted: oklch(0.94 0.006 70);
-  --muted-foreground: oklch(0.45 0.01 70);
-  
-  --accent: oklch(0.92 0.008 70);             /* Accent paper highlights */
-  --accent-foreground: oklch(0.20 0.11 35);
-  
-  --destructive: oklch(0.55 0.18 25);
-  --destructive-foreground: oklch(0.98 0.002 70);
-  
-  --border: oklch(0.88 0.005 70);             /* Fine pencil border */
-  --input: oklch(0.88 0.005 70);
-  --ring: oklch(0.38 0.11 35);
+  --border: #EAEAEA;
+  --input: #EAEAEA;
+  --ring: #E04E39;
   
   --radius: 0px;
 }
 
-/* -----------------------------------------
-   DARK TERMINAL (The Bloomberg Redefined)
-   ----------------------------------------- */
-.theme-terminal {
-  --font-serif-dynamic: "Inter", "system-ui", sans-serif;
-  --font-sans-dynamic: "Inter", "system-ui", sans-serif;
-  --font-mono-dynamic: "DM Mono", "Courier New", monospace;
+/* -------------------------------------------------
+   DESIGN 2 — FIRST PRINCIPLES: "LEGAL BRIEF"
+   ------------------------------------------------- */
+.theme-principles {
+  --font-serif-dynamic: system-ui, sans-serif;
+  --font-sans-dynamic: system-ui, sans-serif;
+  --font-mono-dynamic: monospace;
 
-  --background: oklch(0.12 0.005 240);       /* Deep obsidian black */
-  --foreground: oklch(0.94 0.005 240);       /* Sharp silver white */
+  --background: #FFFFFF;
+  --foreground: #111111;
   
-  --card: oklch(0.15 0.008 240);             /* Deep slate cell */
-  --card-foreground: oklch(0.94 0.005 240);
+  --card: #FFFFFF;
+  --card-foreground: #111111;
   
-  --popover: oklch(0.13 0.006 240);
-  --popover-foreground: oklch(0.94 0.005 240);
+  --popover: #FFFFFF;
+  --popover-foreground: #111111;
   
-  --primary: oklch(0.78 0.16 200);           /* Cyber AI Cyan */
-  --primary-foreground: oklch(0.12 0.005 240);
+  --primary: #111111;
+  --primary-foreground: #FFFFFF;
   
-  --secondary: oklch(0.18 0.01 240);         /* Slate gray secondary */
-  --secondary-foreground: oklch(0.70 0.01 240);
+  --secondary: #FFFFFF;
+  --secondary-foreground: #111111;
   
-  --muted: oklch(0.16 0.008 240);
-  --muted-foreground: oklch(0.55 0.01 240);
+  --muted: #FFFFFF;
+  --muted-foreground: #666666;
   
-  --accent: oklch(0.20 0.012 240);           /* Highlight container */
-  --accent-foreground: oklch(0.82 0.14 75);  /* Cyber amber */
+  --accent: #111111;
+  --accent-foreground: #FFFFFF;
   
-  --destructive: oklch(0.55 0.18 25);
-  --destructive-foreground: oklch(0.95 0.002 240);
+  --destructive: #111111;
+  --destructive-foreground: #FFFFFF;
   
-  --border: oklch(0.22 0.01 240);            /* Glowing dark borders */
-  --input: oklch(0.22 0.01 240);
-  --ring: oklch(0.78 0.16 200);
+  --border: #111111;
+  --input: #111111;
+  --ring: #111111;
   
-  --radius: 0.125rem;
+  --radius: 0px;
 }
 
-/* -----------------------------------------
-   MID-CENTURY ARCHIVIST (Vintage Intel Dossier)
-   ----------------------------------------- */
-.theme-archivist {
-  --font-serif-dynamic: "EB Garamond", "Georgia", serif;
-  --font-sans-dynamic: "EB Garamond", "Georgia", serif;
-  --font-mono-dynamic: "Space Mono", "Courier Prime", monospace;
+/* -------------------------------------------------
+   DESIGN 3 — THE EXPANSIONIST: "INTELLIGENCE PLATFORM"
+   ------------------------------------------------- */
+.theme-expansionist {
+  --font-serif-dynamic: "Instrument Serif", serif;
+  --font-sans-dynamic: "Inter", sans-serif;
+  --font-mono-dynamic: "Space Mono", monospace;
 
-  --background: oklch(0.94 0.015 75);        /* Manila folder beige */
-  --foreground: oklch(0.18 0.01 110);        /* Vintage ink olive-black */
+  --background: #F8F9FC;       /* Cool blue-tinted */
+  --foreground: #0F172A;       /* Slate 900 */
   
-  --card: oklch(0.91 0.018 75);              /* Stacked dossier paper card */
-  --card-foreground: oklch(0.18 0.01 110);
+  --card: #FFFFFF;
+  --card-foreground: #0F172A;
   
-  --popover: oklch(0.94 0.015 75);
-  --popover-foreground: oklch(0.18 0.01 110);
+  --popover: #FFFFFF;
+  --popover-foreground: #0F172A;
   
-  --primary: oklch(0.50 0.14 45);            /* Terracotta clay orange */
-  --primary-foreground: oklch(0.96 0.01 75);
+  --primary: #2563EB;          /* Saturated blue */
+  --primary-foreground: #FFFFFF;
   
-  --secondary: oklch(0.89 0.02 75);          /* Muted card background */
-  --secondary-foreground: oklch(0.35 0.015 110);
+  --secondary: #EEF2F6;
+  --secondary-foreground: #475569;
   
-  --muted: oklch(0.87 0.02 75);
-  --muted-foreground: oklch(0.42 0.015 110);
+  --muted: #E2E8F0;
+  --muted-foreground: #64748B;
   
-  --accent: oklch(0.88 0.03 120);            /* Sage green highlight */
-  --accent-foreground: oklch(0.25 0.08 120);
+  --accent: #2563EB;
+  --accent-foreground: #FFFFFF;
   
-  --destructive: oklch(0.45 0.12 30);
-  --destructive-foreground: oklch(0.95 0.01 75);
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
   
-  --border: oklch(0.75 0.015 75);            /* Fold/crease shadow color */
-  --input: oklch(0.75 0.015 75);
-  --ring: oklch(0.50 0.14 45);
+  --border: #E2E8F0;
+  --input: #E2E8F0;
+  --ring: #2563EB;
   
-  --radius: 0.375rem;
+  --radius: 6px;
+}
+
+/* -------------------------------------------------
+   DESIGN 4 — THE OUTSIDER: "DARK CONVICTION"
+   ------------------------------------------------- */
+.theme-outsider {
+  --font-serif-dynamic: "Playfair Display", serif;
+  --font-sans-dynamic: "DM Sans", sans-serif;
+  --font-mono-dynamic: "Space Mono", monospace;
+
+  --background: #0F0F0F;       /* Near-black */
+  --foreground: #F3F4F6;       /* Gray 100 */
+  
+  --card: #171717;             /* Gray 900 */
+  --card-foreground: #F3F4F6;
+  
+  --popover: #171717;
+  --popover-foreground: #F3F4F6;
+  
+  --primary: #00D4AA;          /* Bright teal-green */
+  --primary-foreground: #0F0F0F;
+  
+  --secondary: #262626;
+  --secondary-foreground: #A3A3A3;
+  
+  --muted: #1F1F1F;
+  --muted-foreground: #737373;
+  
+  --accent: #00D4AA;
+  --accent-foreground: #0F0F0F;
+  
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+  
+  --border: #262626;
+  --input: #262626;
+  --ring: #00D4AA;
+  
+  --radius: 4px;
+}
+
+/* -------------------------------------------------
+   DESIGN 5 — THE EXECUTOR: "CURRENT + POLISH" (Original Swiss)
+   ------------------------------------------------- */
+.theme-executor {
+  --font-serif-dynamic: "Playfair Display", serif;
+  --font-sans-dynamic: "Lora", serif;
+  --font-mono-dynamic: "DM Mono", monospace;
+
+  --background: #FDFBF7;       /* Warm cream paper */
+  --foreground: #1E201E;       /* Deep charcoal ink */
+  
+  --card: #FAF6F0;
+  --card-foreground: #1E201E;
+  
+  --popover: #FDFBF7;
+  --popover-foreground: #1E201E;
+  
+  --primary: #0D9488;          /* Original teal accent */
+  --primary-foreground: #FDFBF7;
+  
+  --secondary: #F5EFE6;
+  --secondary-foreground: #555851;
+  
+  --muted: #EAE3D2;
+  --muted-foreground: #6B7280;
+  
+  --accent: #0D9488;
+  --accent-foreground: #FDFBF7;
+  
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+  
+  --border: #E5DCC6;
+  --input: #E5DCC6;
+  --ring: #0D9488;
+  
+  --radius: 0px;
+}
+
+/* -------------------------------------------------
+   DESIGN 6 — HORMOZI: "THE OFFER MACHINE"
+   ------------------------------------------------- */
+.theme-hormozi {
+  --font-serif-dynamic: "Inter", sans-serif;
+  --font-sans-dynamic: "Inter", sans-serif;
+  --font-mono-dynamic: "Space Mono", monospace;
+
+  --background: #FEFDFB;       /* Near-white warm */
+  --foreground: #1C1917;       /* Stone 900 */
+  
+  --card: #FFFFFF;
+  --card-foreground: #1C1917;
+  
+  --popover: #FFFFFF;
+  --popover-foreground: #1C1917;
+  
+  --primary: #0D9488;          /* Teal accent */
+  --primary-foreground: #FEFDFB;
+  
+  --secondary: #F5F5F4;        /* Stone 100 */
+  --secondary-foreground: #57534E;
+  
+  --muted: #E7E5E4;
+  --muted-foreground: #78716C;
+  
+  --accent: #B8860B;           /* Gold for Pro */
+  --accent-foreground: #FFFFFF;
+  
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+  
+  --border: #E7E5E4;
+  --input: #E7E5E4;
+  --ring: #0D9488;
+  
+  --radius: 4px;
+}
+
+/* -------------------------------------------------
+   DESIGN 7 — NAVAL: "PURE SIGNAL"
+   ------------------------------------------------- */
+.theme-naval {
+  --font-serif-dynamic: "Georgia", serif;
+  --font-sans-dynamic: "Georgia", serif;
+  --font-mono-dynamic: "Georgia", serif;
+
+  --background: #FFFFFF;
+  --foreground: #000000;
+  
+  --card: #FFFFFF;
+  --card-foreground: #000000;
+  
+  --popover: #FFFFFF;
+  --popover-foreground: #000000;
+  
+  --primary: #000000;
+  --primary-foreground: #FFFFFF;
+  
+  --secondary: #FFFFFF;
+  --secondary-foreground: #000000;
+  
+  --muted: #FFFFFF;
+  --muted-foreground: #666666;
+  
+  --accent: #000000;
+  --accent-foreground: #FFFFFF;
+  
+  --destructive: #000000;
+  --destructive-foreground: #FFFFFF;
+  
+  --border: #000000;
+  --input: #000000;
+  --ring: #000000;
+  
+  --radius: 0px;
+}
+
+/* -------------------------------------------------
+   DESIGN 8 — RICK RUBIN: "THE QUIET LETTER"
+   ------------------------------------------------- */
+.theme-rubin {
+  --font-serif-dynamic: "Instrument Serif", "Playfair Display", serif;
+  --font-sans-dynamic: "Lora", serif;
+  --font-mono-dynamic: "Space Mono", monospace;
+
+  --background: #FAF7F2;       /* Warm cream */
+  --foreground: #3D3A36;       /* Dark warm brown */
+  
+  --card: #FAF7F2;
+  --card-foreground: #3D3A36;
+  
+  --popover: #FAF7F2;
+  --popover-foreground: #3D3A36;
+  
+  --primary: #3D3A36;
+  --primary-foreground: #FAF7F2;
+  
+  --secondary: #F3EFEA;
+  --secondary-foreground: #6E6A64;
+  
+  --muted: #EDE8E0;
+  --muted-foreground: #8C8780;
+  
+  --accent: #3D3A36;
+  --accent-foreground: #FAF7F2;
+  
+  --destructive: #8C3A2B;
+  --destructive-foreground: #FAF7F2;
+  
+  --border: #FAF7F2;           /* Invisible borders by default */
+  --input: #FAF7F2;
+  --ring: #3D3A36;
+  
+  --radius: 0px;
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50 transition-colors duration-200;
+    @apply border-border outline-ring/50 transition-colors duration-150;
   }
   body {
     @apply bg-background text-foreground font-sans antialiased;
   }
   
-  /* Textured backgrounds */
-  .theme-hybrid body {
-    background-image: 
-      radial-gradient(rgba(0, 0, 0, 0.01) 1.5px, transparent 0),
-      linear-gradient(to right, rgba(0, 0, 0, 0.003) 1px, transparent 1px);
-    background-size: 24px 24px, 100px 100%;
+  /* Textured backgrounds for Rick Rubin and Executor */
+  .theme-rubin body, .theme-executor body {
+    background-image: radial-gradient(rgba(0, 0, 0, 0.01) 1.5px, transparent 0);
+    background-size: 24px 24px;
   }
 
-  .theme-swiss body {
-    background-image: radial-gradient(rgba(0, 0, 0, 0.012) 1px, transparent 0);
-    background-size: 20px 24px;
-  }
-  
-  .theme-terminal body {
+  /* Deep space lines for Outsider (Dark Conviction) */
+  .theme-outsider body {
     background-image: 
-      linear-gradient(rgba(18, 18, 18, 0.95), rgba(18, 18, 18, 0.95)),
-      linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-    background-size: 100% 100%, 32px 32px, 32px 32px;
-  }
-  
-  .theme-archivist body {
-    background-image: 
-      radial-gradient(rgba(0, 0, 0, 0.015) 1.5px, transparent 0),
-      linear-gradient(to right, rgba(0, 0, 0, 0.005) 1px, transparent 1px);
-    background-size: 30px 30px, 120px 100%;
+      linear-gradient(rgba(15, 15, 15, 0.98), rgba(15, 15, 15, 0.98)),
+      linear-gradient(to right, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+    background-size: 100% 100%, 40px 100%;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-serif tracking-tight;
   }
-  
-  button:not(:disabled),
-  [role="button"]:not([aria-disabled="true"]),
-  [type="button"]:not(:disabled),
-  [type="submit"]:not(:disabled),
-  [type="reset"]:not(:disabled),
-  a[href],
-  select:not(:disabled),
-  input[type="checkbox"]:not(:disabled),
-  input[type="radio"]:not(:disabled) {
-    @apply cursor-pointer;
-  }
 }
 
-@layer components {
-  .container {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
-
-  .flex {
-    min-height: 0;
-    min-width: 0;
-  }
-
-  @media (min-width: 640px) {
-    .container {
-      padding-left: 2rem;
-      padding-right: 2rem;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .container {
-      padding-left: 3rem;
-      padding-right: 3rem;
-      max-width: 1280px;
-    }
-  }
-  
-  /* Theme-specific custom styles */
-  
-  /* Swiss: Sharp editorial divider */
-  .swiss-divider {
-    border-top: 0.5px solid var(--border);
-  }
-  
-  /* Terminal: Glowing scanline */
-  .terminal-glow {
-    box-shadow: 0 0 10px rgba(6, 182, 212, 0.15);
-  }
-  
-  .terminal-glow-amber {
-    box-shadow: 0 0 10px rgba(245, 158, 11, 0.15);
-  }
-  
-  /* Archivist & Hybrid: Highlighter effect */
-  .archivist-highlight {
-    background: linear-gradient(120deg, rgba(136, 196, 119, 0.22) 0%, rgba(136, 196, 119, 0.12) 100%);
-    padding: 0 4px;
-    border-radius: 1px;
-  }
-  
-  .archivist-stamp {
-    border: 2px dashed var(--primary);
-    color: var(--primary);
-    text-transform: uppercase;
-    font-weight: bold;
-    transform: rotate(-3deg);
-    display: inline-block;
-  }
-
-  .hybrid-stamp-red {
-    border: 1.5px solid oklch(0.50 0.14 45);
-    color: oklch(0.50 0.14 45);
-    text-transform: uppercase;
-    font-weight: bold;
-    transform: rotate(-1.5deg);
-    padding: 2px 8px;
-    font-family: "Space Mono", monospace;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    display: inline-block;
-  }
-}
-
-/* High quality fade-in animation */
+/* Dynamic Entrance Fade */
 @keyframes fadeIn {
   from {
     opacity: 0;

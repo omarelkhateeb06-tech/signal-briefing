@@ -44,6 +44,8 @@ export interface BriefingStory {
     general: number;
   };
   sourceCount: number;
+  image: string;
+  isGated?: boolean;
   depth: ContentDepth;
 }
 
@@ -61,6 +63,7 @@ export const MOCK_STORIES: BriefingStory[] = [
       general: 75,
     },
     sourceCount: 24,
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
     depth: {
       accessible: {
         summary: "TSMC's next-generation 2-nanometer chip technology is progressing faster than planned, with initial test yields hitting high numbers. This is happening as national governments invest billions to secure their own AI computing power, shifting chip manufacturing from a purely commercial race to a matter of national security.",
@@ -108,6 +111,7 @@ export const MOCK_STORIES: BriefingStory[] = [
       general: 70,
     },
     sourceCount: 18,
+    image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=800&q=80",
     depth: {
       accessible: {
         summary: "Wall Street is creating a new kind of financial market where tech companies use their physical AI microchips (like Nvidia GPUs) as collateral to borrow money. This lets young AI startups raise millions of dollars without giving up ownership of their companies, but it creates a major risk if the value of those chips suddenly drops.",
@@ -155,6 +159,7 @@ export const MOCK_STORIES: BriefingStory[] = [
       general: 68,
     },
     sourceCount: 12,
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80",
     depth: {
       accessible: {
         summary: "The US Federal Trade Commission (FTC) is investigating the software programs used to price microchips and raw materials. Regulators worry that because many major chip suppliers use the same automated pricing software, it acts as a form of computerized price-fixing, keeping chip prices high.",
@@ -186,6 +191,55 @@ export const MOCK_STORIES: BriefingStory[] = [
         ],
         architecturalImpact: "A ban on shared predictive supply chain software would fragment inventory management systems. Companies would have to build proprietary, isolated demand forecasting models, increasing operational overhead but creating opportunities for custom enterprise AI builders.",
         whatToWatch: "Observe if the DOJ joins the investigation, which would signal potential criminal antitrust charges and likely trigger immediate changes in wafer supply contract terms."
+      }
+    }
+  },
+  {
+    id: "story-4",
+    title: "Venture Capital Pivot: Seed Funding Dries Up as Compute-Heavy Models Consume Series A Runway",
+    date: "June 02, 2026",
+    readTime: "6 min read",
+    sectors: ["finance", "ai"],
+    relevanceScores: {
+      analyst: 88,
+      founder: 99,
+      executive: 92,
+      general: 70,
+    },
+    sourceCount: 15,
+    isGated: true,
+    image: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=800&q=80",
+    depth: {
+      accessible: {
+        summary: "Venture capital firms are changing how they invest in AI. Instead of funding many early-stage startups, they are concentrating their money on a few companies that can afford the massive computing power needed to train large AI models.",
+        bulletPoints: [
+          "Early-stage 'seed' funding for brand-new AI startups has decreased.",
+          "Most capital is going to established Series A and B startups with existing cloud compute partnerships.",
+          "Startups are spending up to 80% of their funding directly on compute power rather than hiring talent."
+        ],
+        whatToWatch: "Watch for a wave of consolidations or acquisitions among early-stage AI startups that run out of compute runway."
+      },
+      briefed: {
+        summary: "Venture capital funding patterns are shifting drastically. Seed rounds are drying up as investors realize that the cost of compute has raised the entry bar. Series A rounds are expanding, but the capital is immediately recycled back into hyperscaler cloud contracts, creating a capital loop that benefits cloud providers.",
+        analysis: "This dynamic represents a structural bottleneck for AI innovation. When 80% of venture capital is immediately redirected to cloud compute providers (AWS, Azure, GCP), VC funds are essentially acting as sales channels for hyperscalers. This high compute overhead leaves startups with minimal capital for product design, distribution, or engineering payroll, forcing them to find immediate monetization or face quick collapse.",
+        bulletPoints: [
+          "Seed stage AI investments are down 42% year-over-year.",
+          "Average Series A round size has risen to $28M, with 75% allocated to compute reservations.",
+          "Hyperscalers are increasingly taking equity stakes in startups in exchange for compute credits."
+        ],
+        whatToWatch: "Watch for regulatory scrutiny on tech giants trading compute credits for equity, which may trigger anti-competitive reviews."
+      },
+      technical: {
+        summary: "The venture capital ecosystem is experiencing a capital reallocation. Seed-stage AI funding is down 42.5% YoY, driven by the escalating cost of compute-intensive training runs. Series A syndicates are demanding pre-secured compute capacity covenants, leading to a closed-loop economy where VC equity is converted into hyperscaler CAPEX.",
+        analysis: "The unit economics of early-stage AI are broken. In previous software waves, seed rounds of $2M allowed for 18-24 months of product-market fit discovery. In 2026, training a competitive proprietary model requires at least 10^25 FLOPs, translating to $5M+ in compute costs alone. Seed investors cannot underwrite this capital expenditure risk. Consequently, funding has shifted to Series A syndicates who co-invest with hyperscalers. The hyperscalers provide compute capacity in exchange for equity, effectively pricing out independent cloud operators and locking startups into proprietary hardware ecosystems.",
+        dataPoints: [
+          { label: "Seed Stage AI Funding Drop", value: "-42.5% YoY" },
+          { label: "Average Series A Round", value: "$28.4M" },
+          { label: "Compute CAPEX Allocation", value: "78.2% of raised funds" },
+          { label: "Hyperscaler Equity Share", value: "32% of YTD rounds" }
+        ],
+        architecturalImpact: "This financial reality forces startups to build on pre-optimized hyperscaler frameworks (like Triton or custom AWS Neuron kernels), reducing architectural portability and cementing the dominance of proprietary chip architectures.",
+        whatToWatch: "Observe the yield of startups built on decentralized compute networks. If decentralized clusters can match hyperscaler reliability, they will disrupt this capital loop and revive seed-stage AI funding."
       }
     }
   }

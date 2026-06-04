@@ -1,6 +1,15 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
-export type DesignMovement = "swiss" | "terminal" | "archivist";
+export type DesignMovement = 
+  | "contrarian"   // Design 1: Workspace Triage
+  | "principles"   // Design 2: Legal Brief
+  | "expansionist" // Design 3: Intelligence Platform
+  | "outsider"     // Design 4: Dark Conviction
+  | "executor"     // Design 5: Current + Polish (Original Swiss)
+  | "hormozi"      // Design 6: The Offer Machine
+  | "naval"        // Design 7: Pure Signal
+  | "rubin";       // Design 8: The Quiet Letter
+
 export type DepthLevel = "accessible" | "briefed" | "technical";
 
 export interface UserProfile {
@@ -9,6 +18,8 @@ export interface UserProfile {
   seniority: "junior" | "mid" | "senior" | "executive";
   sectors: ("ai" | "finance" | "semiconductors")[];
   hasCompletedOnboarding: boolean;
+  isPro: boolean;
+  readCount: number;
 }
 
 interface ThemeContextType {
@@ -23,18 +34,20 @@ interface ThemeContextType {
 
 const defaultProfile: UserProfile = {
   name: "Reader",
-  role: "General Practitioner",
+  role: "Semiconductor Analyst",
   seniority: "senior",
   sectors: ["ai", "finance", "semiconductors"],
-  hasCompletedOnboarding: false,
+  hasCompletedOnboarding: true,
+  isPro: false,
+  readCount: 0,
 };
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [movement, setMovementState] = useState<DesignMovement>(() => {
-    const saved = localStorage.getItem("signal-movement");
-    return (saved as DesignMovement) || "swiss";
+    const saved = localStorage.getItem("signal-movement-v4");
+    return (saved as DesignMovement) || "contrarian";
   });
 
   const [depth, setDepth] = useState<DepthLevel>(() => {
@@ -43,24 +56,24 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   });
 
   const [profile, setProfile] = useState<UserProfile>(() => {
-    const saved = localStorage.getItem("signal-profile");
+    const saved = localStorage.getItem("signal-profile-v4");
     return saved ? JSON.parse(saved) : defaultProfile;
   });
 
   // Apply CSS class to document root for the design movement
   useEffect(() => {
     const root = window.document.documentElement;
-    root.classList.remove("theme-swiss", "theme-terminal", "theme-archivist");
+    root.className = ""; // Reset all classes
     root.classList.add(`theme-${movement}`);
     
-    // Terminal theme uses a dark theme style by default
-    if (movement === "terminal") {
+    // Outsider (Dark Conviction) is a dark theme
+    if (movement === "outsider") {
       root.classList.add("dark");
     } else {
       root.classList.remove("dark");
     }
     
-    localStorage.setItem("signal-movement", movement);
+    localStorage.setItem("signal-movement-v4", movement);
   }, [movement]);
 
   useEffect(() => {
@@ -68,7 +81,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, [depth]);
 
   useEffect(() => {
-    localStorage.setItem("signal-profile", JSON.stringify(profile));
+    localStorage.setItem("signal-profile-v4", JSON.stringify(profile));
   }, [profile]);
 
   const setMovement = (newMovement: DesignMovement) => {
