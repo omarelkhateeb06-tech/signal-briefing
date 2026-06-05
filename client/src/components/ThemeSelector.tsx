@@ -1,59 +1,50 @@
 import React from "react";
-import { useTheme, ScrollModel } from "../contexts/ThemeContext";
+import { useTheme } from "../contexts/ThemeContext";
+import { Sparkles } from "lucide-react";
 
 export const ThemeSelector: React.FC = () => {
-  const { scrollModel, setScrollModel } = useTheme();
-
-  const models: { id: ScrollModel; label: string; desc: string }[] = [
-    { 
-      id: "hero-sticky", 
-      label: "1. Hero Sticky", 
-      desc: "Big hero image scales down and pins to top on scroll" 
-    },
-    { 
-      id: "parallax-margin", 
-      label: "2. Parallax Margins", 
-      desc: "Images float with slight parallax offsets in stream" 
-    },
-    { 
-      id: "sticky-split", 
-      label: "3. Sticky Split Sync", 
-      desc: "Right-hand panel locks and cross-fades image as you scroll left stream" 
-    },
-    { 
-      id: "inline-grid", 
-      label: "4. Inline Grid", 
-      desc: "Alternating image cards embedded asymmetrically in text" 
-    },
-  ];
+  const { depth, setDepth, profile } = useTheme();
 
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 max-w-2xl w-[90%] md:w-auto bg-background/95 backdrop-blur border border-foreground p-3 shadow-2xl flex flex-col md:flex-row items-center gap-4">
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 max-w-4xl w-[95%] md:w-auto bg-background/95 backdrop-blur border-2 border-foreground p-3 shadow-2xl flex flex-col md:flex-row items-center gap-4">
       <div className="flex items-center gap-2 shrink-0 border-b md:border-b-0 md:border-r border-foreground/15 pb-2 md:pb-0 md:pr-4">
-        <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-        </span>
+        <Sparkles className="w-4 h-4 text-primary animate-pulse" />
         <span className="font-mono text-[10px] font-black uppercase tracking-widest text-foreground">
-          PHOTO SCROLL LAB
+          REDESIGN V2 CONSOLE
         </span>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-1">
-        {models.map((m) => (
-          <button
-            key={m.id}
-            onClick={() => setScrollModel(m.id)}
-            title={m.desc}
-            className={`px-3 py-1.5 font-mono text-[9px] uppercase font-bold border transition-all cursor-pointer ${
-              scrollModel === m.id
-                ? "bg-foreground text-background border-foreground"
-                : "border-foreground/10 hover:border-foreground/40 text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            {m.label}
-          </button>
-        ))}
+      <div className="flex flex-wrap items-center gap-4 text-xs font-mono">
+        <div className="flex items-center gap-1.5">
+          <span className="text-muted-foreground">DEPTH:</span>
+          <div className="flex border border-foreground/15 p-0.5 bg-card">
+            {(["accessible", "briefed", "technical"] as const).map((level) => (
+              <button
+                key={level}
+                onClick={() => setDepth(level)}
+                className={`px-2 py-0.5 text-[9px] uppercase font-bold cursor-pointer transition-all ${
+                  depth === level
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {level}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="h-4 w-px bg-foreground/15 hidden md:block" />
+
+        <div className="text-muted-foreground text-[10px]">
+          ACTIVE PROFILE: <span className="text-foreground font-bold">{profile.role.toUpperCase()}</span>
+        </div>
+
+        <div className="h-4 w-px bg-foreground/15 hidden md:block" />
+
+        <div className="text-[9px] text-primary font-black">
+          [1] LEAD WITH EXPLANATIONS • [2] FORMAT FOLLOWS CONTENT TYPE
+        </div>
       </div>
     </div>
   );
