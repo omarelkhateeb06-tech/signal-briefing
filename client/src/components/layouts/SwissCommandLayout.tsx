@@ -95,6 +95,16 @@ export const SwissCommandLayout: React.FC<SwissCommandLayoutProps> = ({ stories,
                       </span>
                     </div>
 
+                    {story.image && (
+                      <div className="relative aspect-[16/9] overflow-hidden border border-foreground/10 bg-muted/10">
+                        <img 
+                          src={story.image} 
+                          alt=""
+                          className="object-cover w-full h-full filter grayscale group-hover:grayscale-0 transition-all duration-300"
+                        />
+                      </div>
+                    )}
+
                     <h3 className="font-serif text-2xl font-black text-foreground group-hover:text-primary transition-colors leading-tight">
                       {story.title}
                     </h3>
@@ -166,6 +176,16 @@ export const SwissCommandLayout: React.FC<SwissCommandLayoutProps> = ({ stories,
                       {story.title}
                     </h3>
 
+                    {story.image && (
+                      <div className="my-2 relative aspect-[16/10] w-full max-w-[180px] overflow-hidden border border-foreground/5 bg-muted/10">
+                        <img 
+                          src={story.image} 
+                          alt=""
+                          className="object-cover w-full h-full filter grayscale group-hover:grayscale-0 transition-all duration-300"
+                        />
+                      </div>
+                    )}
+
                     <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
                       {story.depth[depth].summary}
                     </p>
@@ -186,16 +206,14 @@ export const SwissCommandLayout: React.FC<SwissCommandLayoutProps> = ({ stories,
         </main>
 
         {/* RIGHT PANEL: 40-45% width (lg:col-span-5) */}
-        <aside className="lg:col-span-5 p-6 md:p-8 bg-card flex flex-col justify-between overflow-y-auto max-h-[calc(100vh-180px)]">
+        <aside className="lg:col-span-5 p-6 md:p-8 space-y-8 overflow-y-auto max-h-[calc(100vh-180px)]">
           
           {selectedStoryId ? (
-            // State A: Story selected - show full detail and depth toggles
+            // Detail Workspace Mode
             <div className="space-y-6 animate-fade-in">
-              
-              {/* Depth Toggle */}
               <div className="flex justify-between items-center border-b border-foreground/10 pb-3">
-                <span className="font-mono text-[10px] uppercase font-bold text-muted-foreground">
-                  INTEL DEPTH:
+                <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground font-bold">
+                  TELEMETRY DEPTH:
                 </span>
                 
                 <div className="flex bg-background border border-foreground p-0.5">
@@ -215,7 +233,6 @@ export const SwissCommandLayout: React.FC<SwissCommandLayoutProps> = ({ stories,
                 </div>
               </div>
 
-              {/* Title */}
               <div className="space-y-2">
                 <div className="font-mono text-[10px] text-primary font-bold">
                   {selectedStory.sectors.join(" // ")}
@@ -225,11 +242,20 @@ export const SwissCommandLayout: React.FC<SwissCommandLayoutProps> = ({ stories,
                 </h2>
               </div>
 
-              {/* Core Content */}
-              <div className="space-y-5 text-sm leading-relaxed text-foreground">
+              {selectedStory.image && (
+                <div className="relative aspect-[16/10] overflow-hidden border border-foreground bg-muted/10">
+                  <img 
+                    src={selectedStory.image} 
+                    alt=""
+                    className="object-cover w-full h-full filter grayscale contrast-110 hover:grayscale-0 transition-all duration-300"
+                  />
+                </div>
+              )}
+
+              <div className="space-y-4 text-sm leading-relaxed text-foreground">
                 <div>
                   <div className="font-mono text-[9px] uppercase tracking-wider text-primary font-bold mb-1">
-                    THE CORE BRIEF //
+                    I. EXECUTIVE THESIS //
                   </div>
                   <p className="font-serif">
                     {selectedStory.depth[depth].summary}
@@ -238,30 +264,17 @@ export const SwissCommandLayout: React.FC<SwissCommandLayoutProps> = ({ stories,
 
                 <div className="bg-primary/5 p-4 border-l-2 border-primary">
                   <div className="font-mono text-[9px] uppercase tracking-wider text-primary font-bold mb-1">
-                    WHY IT MATTERS //
+                    II. CONVERGENCE IMPACT //
                   </div>
                   <p className="font-serif italic text-foreground">
                     {"analysis" in selectedStory.depth[depth] ? (selectedStory.depth[depth] as any).analysis : selectedStory.depth[depth].summary}
                   </p>
                 </div>
 
-                {/* Bulleted Takeaways */}
-                <div>
-                  <div className="font-mono text-[9px] uppercase tracking-wider text-primary font-bold mb-1">
-                    KEY TAKEAWAYS //
-                  </div>
-                  <ul className="list-disc pl-4 space-y-1.5 text-xs text-foreground/90">
-                    <li>Cross-industry supply chain dependency mapped with 98% accuracy.</li>
-                    <li>Sovereign capital injections shifting balance of lithography nodes.</li>
-                    <li>Forward metrics indicate early yield stabilization across 2nm.</li>
-                  </ul>
-                </div>
-
-                {/* Technical Telemetry if technical depth is selected */}
                 {"dataPoints" in selectedStory.depth[depth] && (
                   <div>
                     <div className="font-mono text-[9px] uppercase tracking-wider text-primary font-bold mb-2">
-                      TECHNICAL METRICS //
+                      III. DECLASSIFIED METRICS //
                     </div>
                     <div className="grid grid-cols-2 gap-2 font-mono text-[10px]">
                       {(selectedStory.depth[depth] as any).dataPoints.map((dp: any, idx: number) => (
@@ -276,61 +289,48 @@ export const SwissCommandLayout: React.FC<SwissCommandLayoutProps> = ({ stories,
 
                 <div className="pt-3 border-t border-foreground/10">
                   <div className="font-mono text-[9px] uppercase tracking-wider text-primary font-bold mb-1">
-                    INDICATORS TO MONITOR //
+                    IV. WHAT TO WATCH NEXT //
                   </div>
                   <p className="text-xs text-muted-foreground italic">
                     {selectedStory.depth[depth].whatToWatch}
                   </p>
                 </div>
-
-                {/* Source attribution line */}
-                <div className="font-mono text-[9px] text-muted-foreground pt-4 border-t border-dashed border-foreground/10">
-                  SOURCE: {selectedStory.sourceCount} DECLASSIFIED INTEL CHANNELS
-                </div>
               </div>
 
-              {/* Close Detail button */}
               <button 
                 onClick={() => setSelectedStoryId(null)}
                 className="w-full border border-foreground py-2 font-mono text-xs uppercase font-bold hover:bg-foreground hover:text-background transition-colors cursor-pointer"
               >
-                [Return to Overview]
+                [CLOSE ANALYSIS WORKSPACE]
               </button>
-
             </div>
           ) : (
-            // State B: No story selected - show profile card, market context, and manifesto
-            <div className="space-y-8 animate-fade-in">
-              
-              {/* Profile Card */}
+            // Default Overview Mode
+            <div className="space-y-6 animate-fade-in">
               <div className="border border-foreground p-4 bg-background">
                 <h3 className="font-mono text-[10px] uppercase tracking-wider text-primary font-bold mb-3">
-                  INTELLIGENCE PROFILE
+                  SYSTEM TELEMETRY
                 </h3>
                 <div className="divide-y divide-foreground/10 font-mono text-xs">
                   <div className="py-2 flex justify-between">
-                    <span className="text-muted-foreground">READER:</span>
+                    <span className="text-muted-foreground">OPERATOR:</span>
                     <span className="font-bold text-foreground">{profile.name.toUpperCase()}</span>
                   </div>
                   <div className="py-2 flex justify-between">
-                    <span className="text-muted-foreground">ROLE:</span>
+                    <span className="text-muted-foreground">ROLE CLEARANCE:</span>
                     <span className="font-bold text-foreground">{profile.role.toUpperCase()}</span>
                   </div>
                   <div className="py-2 flex justify-between">
-                    <span className="text-muted-foreground">CLEARANCE:</span>
-                    <span className="font-bold text-primary">{profile.seniority.toUpperCase()}</span>
-                  </div>
-                  <div className="py-2 flex justify-between">
-                    <span className="text-muted-foreground">SECTORS:</span>
+                    <span className="text-muted-foreground">CHANNELS:</span>
                     <span className="font-bold text-foreground truncate max-w-[180px]">{profile.sectors.join(", ")}</span>
                   </div>
                 </div>
               </div>
 
-              {/* Market Context */}
+              {/* Live Market Metrics panel */}
               <div className="space-y-3">
                 <h3 className="font-mono text-[10px] uppercase tracking-wider text-primary font-bold border-b border-foreground/10 pb-1">
-                  MARKET CONTEXT
+                  MARKET DATA STREAM
                 </h3>
                 <div className="grid grid-cols-2 gap-3">
                   {MARKET_METRICS.slice(0, 4).map((metric) => {
@@ -353,17 +353,6 @@ export const SwissCommandLayout: React.FC<SwissCommandLayoutProps> = ({ stories,
                   })}
                 </div>
               </div>
-
-              {/* The Convergence Manifesto */}
-              <div className="border-t border-foreground/15 pt-6 space-y-2">
-                <h3 className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground font-bold">
-                  THE CONVERGENCE MANIFESTO
-                </h3>
-                <p className="font-serif text-sm italic text-foreground/80 leading-relaxed">
-                  "SIGNAL is built on a single core truth: AI, Semiconductors, and Capital are no longer three siloed beats. They are one interconnected battlefield. We read everything so you don't have to."
-                </p>
-              </div>
-
             </div>
           )}
 

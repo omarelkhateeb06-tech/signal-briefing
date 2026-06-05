@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { BriefingStory, MARKET_METRICS } from "../../lib/mockData";
-import { ArrowUpRight, ArrowDownRight, Sparkles } from "lucide-react";
+import { ArrowUpRight, ArrowDownRight, Sparkles, Pencil, Trash2, Plus, Image as ImageIcon } from "lucide-react";
 
 interface SwissDossierLayoutProps {
   stories: BriefingStory[];
@@ -11,8 +11,51 @@ interface SwissDossierLayoutProps {
 export const SwissDossierLayout: React.FC<SwissDossierLayoutProps> = ({ stories, onOpenOnboarding }) => {
   const { depth, setDepth, profile } = useTheme();
   const [activeStoryId, setActiveStoryId] = useState<string>("story-1");
+  const [annotations, setAnnotations] = useState<Record<string, string>>({});
+  const [noteInput, setNoteInput] = useState<string>("");
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const activeStory = stories.find((s) => s.id === activeStoryId) || stories[0];
+
+  // Load annotations from local storage on mount
+  useEffect(() => {
+    const savedNotes = localStorage.getItem("signal-marginalia-notes");
+    if (savedNotes) {
+      try {
+        setAnnotations(JSON.parse(savedNotes));
+      } catch (e) {
+        console.error("Error loading annotations", e);
+      }
+    }
+  }, []);
+
+  // Update note input when active story changes
+  useEffect(() => {
+    setNoteInput(annotations[activeStoryId] || "");
+    setIsEditing(false);
+  }, [activeStoryId, annotations]);
+
+  const saveNote = () => {
+    const updatedNotes = {
+      ...annotations,
+      [activeStoryId]: noteInput,
+    };
+    if (!noteInput.trim()) {
+      delete updatedNotes[activeStoryId];
+    }
+    setAnnotations(updatedNotes);
+    localStorage.setItem("signal-marginalia-notes", JSON.stringify(updatedNotes));
+    setIsEditing(false);
+  };
+
+  const deleteNote = () => {
+    const updatedNotes = { ...annotations };
+    delete updatedNotes[activeStoryId];
+    setAnnotations(updatedNotes);
+    localStorage.setItem("signal-marginalia-notes", JSON.stringify(updatedNotes));
+    setNoteInput("");
+    setIsEditing(false);
+  };
 
   const getRelevanceScore = (story: BriefingStory) => {
     const roleKey = profile.seniority === "executive" 
@@ -96,6 +139,20 @@ export const SwissDossierLayout: React.FC<SwissDossierLayoutProps> = ({ stories,
                       </span>
                     </div>
 
+                    {/* Sourced-story real image block */}
+                    {story.image && (
+                      <div className="relative aspect-[16/9] overflow-hidden border border-foreground/20 bg-muted/20">
+                        <img 
+                          src={story.image} 
+                          alt={story.title}
+                          className="object-cover w-full h-full filter grayscale hover:grayscale-0 transition-all duration-300"
+                        />
+                        <div className="absolute bottom-2 right-2 bg-background/80 px-2 py-0.5 text-[8px] font-mono border border-foreground/10">
+                          SOURCE METADATA ILLUSTRATION
+                        </div>
+                      </div>
+                    )}
+
                     <h3 className="font-serif text-3xl font-black text-foreground group-hover:text-primary transition-colors leading-tight">
                       {story.title}
                     </h3>
@@ -160,6 +217,11 @@ export const SwissDossierLayout: React.FC<SwissDossierLayoutProps> = ({ stories,
                       <span className="uppercase">{story.sectors.join(" • ")}</span>
                       <span>•</span>
                       <span>{story.readTime}</span>
+                      {annotations[story.id] && (
+                        <span className="bg-amber-100 text-amber-800 text-[8px] font-bold px-1 py-0.2 border border-amber-200 uppercase">
+                          HAS MARGINALIA
+                        </span>
+                      )}
                     </div>
 
                     <h3 className="font-serif text-lg font-bold leading-snug text-foreground group-hover:text-primary transition-colors">
@@ -170,6 +232,17 @@ export const SwissDossierLayout: React.FC<SwissDossierLayoutProps> = ({ stories,
                       {story.depth[depth].summary}
                     </p>
                   </div>
+
+                  {/* Tiny inline thumbnail preview */}
+                  {story.image && (
+                    <div className="shrink-0 w-16 h-12 border border-foreground/10 bg-muted/20 overflow-hidden">
+                      <img 
+                        src={story.image} 
+                        alt="" 
+                        className="object-cover w-full h-full filter grayscale group-hover:grayscale-0 transition-all duration-300"
+                      />
+                    </div>
+                  )}
 
                   <div className="shrink-0 text-right font-mono text-[9px] space-y-1">
                     <div className="bg-primary/10 text-primary font-bold px-2 py-0.5 border border-primary/20">
@@ -186,7 +259,7 @@ export const SwissDossierLayout: React.FC<SwissDossierLayoutProps> = ({ stories,
         </main>
 
         {/* SECONDARY COLUMN (Right, narrower - 40% width) */}
-        <aside className="lg:col-span-5 p-6 md:p-8 bg-card border border-foreground flex flex-col justify-between overflow-y-auto max-h-[calc(100vh-180px)]">
+        <aside className="lg:col-span-5 p-6 md:p-8 bg-card border border-foreground flex flex-col justify-between overflow-y-auto max-h-[calc(100vh-180px)] space-y-6">
           
           {activeStoryId ? (
             // State A: Story selected - transitions to show full story detail and depth switcher
@@ -224,6 +297,20 @@ export const SwissDossierLayout: React.FC<SwissDossierLayoutProps> = ({ stories,
                   {activeStory.title}
                 </h2>
               </div>
+
+              {/* Sourced story full visual illustration */}
+              {activeStory.image && (
+                <div className="relative aspect-[16/10] border border-foreground overflow-hidden bg-muted/10">
+                  <img 
+                    src={activeStory.image} 
+                    alt={activeStory.title}
+                    className="object-cover w-full h-full filter grayscale contrast-115 hover:grayscale-0 transition-all duration-300"
+                  />
+                  <div className="absolute bottom-2 left-2 bg-background/95 px-2 py-1 text-[8px] font-mono border border-foreground">
+                    CLASSIFIED GRAPHIC // EYES ONLY
+                  </div>
+                </div>
+              )}
 
               {/* Story Content details */}
               <div className="space-y-5 text-sm leading-relaxed text-foreground">
@@ -281,6 +368,65 @@ export const SwissDossierLayout: React.FC<SwissDossierLayoutProps> = ({ stories,
                     {activeStory.depth[depth].whatToWatch}
                   </p>
                 </div>
+              </div>
+
+              {/* MARGINALIA HANDWRITTEN-STYLE NOTEBOOK SECTION */}
+              <div className="border-t-2 border-foreground pt-4 space-y-3 bg-amber-50/40 -mx-4 px-4 py-4 border border-amber-200/50 rounded-sm">
+                <div className="flex justify-between items-center">
+                  <span className="font-mono text-[10px] uppercase font-bold text-amber-800 flex items-center gap-1">
+                    <Pencil className="w-3.5 h-3.5" />
+                    Marginalia Annotations
+                  </span>
+                  {annotations[activeStoryId] && !isEditing && (
+                    <button 
+                      onClick={deleteNote}
+                      className="text-rose-700 hover:text-rose-900 font-mono text-[9px] uppercase font-bold flex items-center gap-1 cursor-pointer"
+                    >
+                      <Trash2 className="w-3 h-3" />
+                      [Erase]
+                    </button>
+                  )}
+                </div>
+
+                {annotations[activeStoryId] && !isEditing ? (
+                  <div className="space-y-2">
+                    {/* Scribble style font/note box */}
+                    <div className="font-serif italic text-sm text-amber-900 bg-amber-100/50 p-3 border-l-2 border-amber-400 leading-relaxed shadow-sm">
+                      "{annotations[activeStoryId]}"
+                    </div>
+                    <button 
+                      onClick={() => setIsEditing(true)}
+                      className="text-amber-800 hover:underline font-mono text-[9px] uppercase font-bold cursor-pointer"
+                    >
+                      [Edit Note]
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    <textarea
+                      value={noteInput}
+                      onChange={(e) => setNoteInput(e.target.value)}
+                      placeholder="Scribble your operational notes, observations, or action items in the margins..."
+                      className="w-full bg-background border border-amber-300 p-2.5 font-serif text-sm italic text-amber-900 focus:outline-none focus:ring-1 focus:ring-amber-500 placeholder:text-amber-700/40 min-h-[80px]"
+                    />
+                    <div className="flex gap-2">
+                      <button 
+                        onClick={saveNote}
+                        className="bg-amber-800 text-white px-3 py-1 font-mono text-[9px] uppercase font-bold hover:bg-amber-900 transition-colors cursor-pointer"
+                      >
+                        {annotations[activeStoryId] ? "Update Annotation" : "Save Note"}
+                      </button>
+                      {isEditing && (
+                        <button 
+                          onClick={() => setIsEditing(false)}
+                          className="border border-amber-400 text-amber-800 px-3 py-1 font-mono text-[9px] uppercase font-bold hover:bg-amber-100 transition-colors cursor-pointer"
+                        >
+                          Cancel
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Close Detail button */}

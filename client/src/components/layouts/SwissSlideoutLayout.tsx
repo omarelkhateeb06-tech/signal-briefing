@@ -82,6 +82,16 @@ export const SwissSlideoutLayout: React.FC<SwissSlideoutLayoutProps> = ({ storie
                       </span>
                     </div>
 
+                    {story.image && (
+                      <div className="relative aspect-[16/9] overflow-hidden border border-foreground/10 bg-muted/10">
+                        <img 
+                          src={story.image} 
+                          alt=""
+                          className="object-cover w-full h-full filter grayscale group-hover:grayscale-0 transition-all duration-300"
+                        />
+                      </div>
+                    )}
+
                     <h3 className="font-serif text-2xl md:text-3xl font-black text-foreground group-hover:text-primary transition-colors leading-tight">
                       {story.title}
                     </h3>
@@ -125,46 +135,48 @@ export const SwissSlideoutLayout: React.FC<SwissSlideoutLayoutProps> = ({ storie
                         {story.title}
                       </h3>
 
-                      <p className="text-xs text-muted-foreground line-clamp-2">
+                      {story.image && (
+                        <div className="my-2 relative aspect-[16/10] w-full max-w-[150px] overflow-hidden border border-foreground/5 bg-muted/10">
+                          <img 
+                            src={story.image} 
+                            alt=""
+                            className="object-cover w-full h-full filter grayscale group-hover:grayscale-0 transition-all duration-300"
+                          />
+                        </div>
+                      )}
+
+                      <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
                         {story.depth[depth].summary}
                       </p>
                     </div>
 
                     <div className="shrink-0 text-right font-mono text-[9px] space-y-1">
-                      <div className="bg-primary/10 text-primary font-bold px-1.5 py-0.5 border border-primary/20">
+                      <div className="bg-primary/10 text-primary font-bold px-2 py-0.5 border border-primary/20">
                         {score}% MATCH
                       </div>
-                      <div className="text-muted-foreground">
-                        {story.sourceCount} SRCs
+                      <div className="text-muted-foreground text-[8px]">
+                        {story.sourceCount} SOURCES
                       </div>
                     </div>
                   </article>
                 );
               }
 
-              // Compact Tail (Rank 9+)
+              // High-density lists (Rank 9-10)
               return (
                 <article 
                   key={story.id}
                   onClick={() => setSlideStoryId(story.id)}
                   className="py-3 cursor-pointer group flex justify-between items-center gap-4"
                 >
-                  <div className="flex items-center gap-4 min-w-0 flex-1">
-                    <span className="font-mono text-xs font-bold text-muted-foreground w-6 text-center">
-                      {index + 1}
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <h4 className="font-serif text-sm font-bold text-foreground group-hover:text-primary transition-colors truncate">
-                        {story.title}
-                      </h4>
-                      <p className="text-[11px] text-muted-foreground truncate">
-                        {story.depth[depth].summary}
-                      </p>
-                    </div>
+                  <div className="flex items-center gap-3 min-w-0 flex-1">
+                    <span className="font-mono text-[10px] text-primary font-bold">0{index + 1}</span>
+                    <h3 className="font-serif text-sm font-bold text-foreground group-hover:text-primary transition-colors truncate">
+                      {story.title}
+                    </h3>
                   </div>
-
-                  <div className="font-mono text-[9px] text-muted-foreground whitespace-nowrap shrink-0">
-                    {score}% MATCH
+                  <div className="shrink-0 font-mono text-[8px] text-muted-foreground uppercase">
+                    {story.sectors.join(" // ")}
                   </div>
                 </article>
               );
@@ -172,62 +184,55 @@ export const SwissSlideoutLayout: React.FC<SwissSlideoutLayoutProps> = ({ storie
           </div>
         </main>
 
-        {/* RIGHT COLUMN: Static Sidebar (35% width) */}
-        <aside className="lg:col-span-4 space-y-8 lg:border-l lg:border-foreground/10 lg:pl-8">
+        {/* RIGHT COLUMN: Static Context & Market Telemetry (35% width) */}
+        <aside className="lg:col-span-4 p-6 md:p-8 bg-card border border-foreground space-y-6">
           
-          {/* Onboarding Profile Card */}
-          <div className="border border-foreground p-5 bg-card">
-            <h3 className="font-mono text-[10px] uppercase tracking-wider text-primary font-bold mb-4">
-              INTELLIGENCE PROFILE
+          {/* Brief Profile Panel */}
+          <div className="border border-foreground p-4 bg-background">
+            <h3 className="font-mono text-[10px] uppercase tracking-wider text-primary font-bold mb-3">
+              CALIBRATED SUBSCRIBER
             </h3>
-            
-            <table className="w-full font-mono text-xs border-collapse">
-              <tbody>
-                <tr className="border-b border-foreground/10">
-                  <td className="py-2 text-muted-foreground">READER</td>
-                  <td className="py-2 font-bold text-right">{profile.name.toUpperCase()}</td>
-                </tr>
-                <tr className="border-b border-foreground/10">
-                  <td className="py-2 text-muted-foreground">ROLE</td>
-                  <td className="py-2 font-bold text-right">{profile.role.toUpperCase()}</td>
-                </tr>
-                <tr className="border-b border-foreground/10">
-                  <td className="py-2 text-muted-foreground">TRACKED</td>
-                  <td className="py-2 font-bold text-right text-primary uppercase">{profile.sectors.join(", ")}</td>
-                </tr>
-              </tbody>
-            </table>
-
+            <div className="divide-y divide-foreground/10 font-mono text-xs">
+              <div className="py-1.5 flex justify-between">
+                <span className="text-muted-foreground">READER:</span>
+                <span className="font-bold text-foreground">{profile.name.toUpperCase()}</span>
+              </div>
+              <div className="py-1.5 flex justify-between">
+                <span className="text-muted-foreground">ROLE:</span>
+                <span className="font-bold text-foreground">{profile.role.toUpperCase()}</span>
+              </div>
+              <div className="py-1.5 flex justify-between text-primary font-bold">
+                <span>CLEARANCE:</span>
+                <span>{profile.seniority.toUpperCase()}</span>
+              </div>
+            </div>
             <button 
               onClick={onOpenOnboarding}
-              className="w-full mt-4 border border-foreground py-2 font-mono text-[10px] font-bold uppercase hover:bg-foreground hover:text-background transition-colors cursor-pointer"
+              className="w-full mt-3 border border-foreground/30 hover:border-foreground py-1.5 font-mono text-[9px] uppercase font-bold transition-colors cursor-pointer"
             >
-              [Adjust Profile]
+              [RE-CALIBRATE PROFILE]
             </button>
           </div>
 
-          {/* Market Context Indices */}
-          <div className="space-y-4">
+          {/* Market context indices */}
+          <div className="space-y-3">
             <h3 className="font-mono text-[10px] uppercase tracking-wider text-primary font-bold border-b border-foreground/10 pb-1">
-              MARKET CONTEXT
+              CONVERGENCE INDICATORS
             </h3>
-            <div className="flex flex-col gap-3">
-              {MARKET_METRICS.slice(0, 5).map((metric) => {
+            <div className="grid grid-cols-2 gap-2">
+              {MARKET_METRICS.slice(0, 4).map((metric) => {
                 const isUp = metric.trend === "up";
                 return (
-                  <div key={metric.symbol} className="flex justify-between items-center border-b border-foreground/10 pb-2 last:border-0">
-                    <div>
-                      <div className="font-mono text-xs font-bold text-foreground">{metric.symbol}</div>
-                      <div className="text-[10px] text-muted-foreground truncate max-w-[150px]">{metric.name}</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="font-mono text-xs font-bold text-foreground">{metric.value}</div>
-                      <div className={`font-mono text-[9px] flex items-center justify-end gap-0.5 ${
-                        isUp ? "text-emerald-600" : "text-rose-600"
-                      }`}>
-                        {isUp ? <ArrowUpRight className="w-2.5 h-2.5" /> : <ArrowDownRight className="w-2.5 h-2.5" />}
+                  <div key={metric.symbol} className="border border-foreground/10 p-2.5 bg-background flex flex-col justify-between">
+                    <div className="flex justify-between items-start">
+                      <span className="font-mono text-[10px] font-bold">{metric.symbol}</span>
+                      <span className={`font-mono text-[8px] font-bold flex items-center ${isUp ? "text-emerald-600" : "text-rose-600"}`}>
                         {metric.change}
-                      </div>
+                      </span>
+                    </div>
+                    <div className="mt-1.5">
+                      <div className="font-mono text-xs font-black">{metric.value}</div>
+                      <div className="text-[8px] text-muted-foreground truncate">{metric.name}</div>
                     </div>
                   </div>
                 );
@@ -235,10 +240,12 @@ export const SwissSlideoutLayout: React.FC<SwissSlideoutLayoutProps> = ({ storie
             </div>
           </div>
 
-          {/* Editorial Manifesto Quote */}
-          <div className="border-t-2 border-foreground pt-4">
-            <p className="font-serif text-xs italic text-muted-foreground leading-relaxed">
-              "The Financial Times had a baby with a Bloomberg terminal, raised it in Zurich, and taught it to speak directly to you."
+          <div className="border-t border-foreground/15 pt-4">
+            <h3 className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground font-bold mb-1">
+              EDITORIAL STATEMENT
+            </h3>
+            <p className="font-serif text-xs italic text-foreground/80 leading-relaxed">
+              "SIGNAL does not aggregate. We rank and curate. We treat AI, Finance, and Semiconductors as a single converged ecosystem."
             </p>
           </div>
 
@@ -246,56 +253,80 @@ export const SwissSlideoutLayout: React.FC<SwissSlideoutLayoutProps> = ({ storie
 
       </div>
 
-      {/* SLIDE-OUT DETAIL PANEL OVERLAY */}
+      {/* INTERACTIVE SLIDE-OUT PANEL (Reveals full story analysis on trigger) */}
       <div 
-        className={`fixed top-0 right-0 h-full w-full sm:w-[500px] bg-background border-l border-foreground shadow-2xl z-50 transition-transform duration-300 ease-out transform ${
+        className={`fixed top-0 right-0 h-full w-full sm:w-[500px] md:w-[600px] bg-background border-l border-foreground shadow-2xl z-50 transform transition-transform duration-300 ease-out flex flex-col ${
           slideStoryId ? "translate-x-0" : "translate-x-full"
         }`}
       >
         {activeSlideStory && (
-          <div className="h-full flex flex-col justify-between p-6 md:p-8 overflow-y-auto">
+          <div className="flex flex-col h-full">
             
-            <div className="space-y-6">
-              {/* Slide-out header */}
-              <div className="flex justify-between items-center border-b border-foreground/10 pb-4">
-                <span className="font-mono text-[10px] text-primary font-bold">
-                  {activeSlideStory.sectors.join(" // ")}
+            {/* Slide-out Header */}
+            <div className="p-6 border-b border-foreground flex justify-between items-center bg-card">
+              <div className="font-mono text-[10px] text-primary font-bold uppercase tracking-wider">
+                DEEP DIVE // EXHIBIT {activeSlideStory.id.toUpperCase()}
+              </div>
+              <button 
+                onClick={() => setSlideStoryId(null)}
+                className="text-foreground hover:text-primary cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Slide-out Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-6 md:p-8 space-y-6">
+              
+              {/* Depth switcher inside panel */}
+              <div className="flex justify-between items-center border-b border-foreground/10 pb-3">
+                <span className="font-mono text-[10px] uppercase font-bold text-muted-foreground">
+                  INTEL DEPTH:
                 </span>
-                <button 
-                  onClick={() => setSlideStoryId(null)}
-                  className="p-1 hover:bg-secondary rounded-sm transition-colors cursor-pointer"
-                >
-                  <X className="w-5 h-5 text-foreground" />
-                </button>
+                
+                <div className="flex bg-background border border-foreground p-0.5">
+                  {(["accessible", "briefed", "technical"] as const).map((level) => (
+                    <button
+                      key={level}
+                      onClick={() => setDepth(level)}
+                      className={`px-2.5 py-1 font-mono text-[9px] uppercase font-bold cursor-pointer transition-all ${
+                        depth === level
+                          ? "bg-primary text-primary-foreground"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      {level}
+                    </button>
+                  ))}
+                </div>
               </div>
 
-              {/* Depth Selector */}
-              <div className="flex bg-secondary p-0.5 border border-foreground">
-                {(["accessible", "briefed", "technical"] as const).map((level) => (
-                  <button
-                    key={level}
-                    onClick={() => setDepth(level)}
-                    className={`flex-1 py-1 text-center font-mono text-[9px] uppercase font-bold transition-all cursor-pointer ${
-                      depth === level
-                        ? "bg-primary text-primary-foreground"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    {level}
-                  </button>
-                ))}
+              {/* Title */}
+              <div className="space-y-2">
+                <div className="font-mono text-[10px] text-primary font-bold">
+                  {activeSlideStory.sectors.join(" // ")}
+                </div>
+                <h2 className="font-serif text-2xl md:text-3xl font-black leading-tight text-foreground">
+                  {activeSlideStory.title}
+                </h2>
               </div>
 
-              {/* Story Title */}
-              <h2 className="font-serif text-2xl md:text-3xl font-black leading-tight text-foreground">
-                {activeSlideStory.title}
-              </h2>
+              {/* Sourced Story Illustration */}
+              {activeSlideStory.image && (
+                <div className="relative aspect-[16/10] overflow-hidden border border-foreground bg-muted/10">
+                  <img 
+                    src={activeSlideStory.image} 
+                    alt=""
+                    className="object-cover w-full h-full filter grayscale contrast-110 hover:grayscale-0 transition-all duration-300"
+                  />
+                </div>
+              )}
 
-              {/* Full structured contents */}
+              {/* Content sections */}
               <div className="space-y-5 text-sm leading-relaxed text-foreground">
                 <div>
                   <div className="font-mono text-[9px] uppercase tracking-wider text-primary font-bold mb-1">
-                    THE CORE BRIEF //
+                    I. EXECUTIVE BRIEF //
                   </div>
                   <p className="font-serif">
                     {activeSlideStory.depth[depth].summary}
@@ -304,30 +335,17 @@ export const SwissSlideoutLayout: React.FC<SwissSlideoutLayoutProps> = ({ storie
 
                 <div className="bg-primary/5 p-4 border-l-2 border-primary">
                   <div className="font-mono text-[9px] uppercase tracking-wider text-primary font-bold mb-1">
-                    SITUATIONAL ANALYSIS //
+                    II. CONVERGENCE INSIGHT //
                   </div>
                   <p className="font-serif italic text-foreground">
                     {"analysis" in activeSlideStory.depth[depth] ? (activeSlideStory.depth[depth] as any).analysis : activeSlideStory.depth[depth].summary}
                   </p>
                 </div>
 
-                {/* Takeaways */}
-                <div>
-                  <div className="font-mono text-[9px] uppercase tracking-wider text-primary font-bold mb-1">
-                    KEY TAKEAWAYS //
-                  </div>
-                  <ul className="list-disc pl-4 space-y-1.5 text-xs text-foreground/90">
-                    <li>Dynamic re-ranking model achieves 98% user preference alignment.</li>
-                    <li>Sovereign capital injections shifting balance of lithography nodes.</li>
-                    <li>Forward metrics indicate early yield stabilization across 2nm.</li>
-                  </ul>
-                </div>
-
-                {/* Technical details if technical depth is selected */}
                 {"dataPoints" in activeSlideStory.depth[depth] && (
                   <div>
                     <div className="font-mono text-[9px] uppercase tracking-wider text-primary font-bold mb-2">
-                      METRIC TELEMETRY //
+                      III. SYSTEM METRICS //
                     </div>
                     <div className="grid grid-cols-2 gap-2 font-mono text-[10px]">
                       {(activeSlideStory.depth[depth] as any).dataPoints.map((dp: any, idx: number) => (
@@ -342,19 +360,24 @@ export const SwissSlideoutLayout: React.FC<SwissSlideoutLayoutProps> = ({ storie
 
                 <div className="pt-3 border-t border-foreground/10">
                   <div className="font-mono text-[9px] uppercase tracking-wider text-primary font-bold mb-1">
-                    INDICATORS TO MONITOR //
+                    IV. WHAT TO WATCH NEXT //
                   </div>
                   <p className="text-xs text-muted-foreground italic">
                     {activeSlideStory.depth[depth].whatToWatch}
                   </p>
                 </div>
               </div>
+
             </div>
 
-            {/* Slide-out footer */}
-            <div className="mt-8 pt-4 border-t border-foreground/10 flex justify-between items-center text-[10px] font-mono text-muted-foreground">
-              <span>{activeSlideStory.readTime.toUpperCase()}</span>
-              <span>{activeSlideStory.sourceCount} SOURCES ANALYZE</span>
+            {/* Slide-out Footer */}
+            <div className="p-6 border-t border-foreground bg-card flex gap-4">
+              <button 
+                onClick={() => setSlideStoryId(null)}
+                className="flex-1 bg-foreground text-background py-2 font-mono text-xs uppercase font-bold hover:bg-foreground/90 transition-colors cursor-pointer text-center"
+              >
+                Close Deep Dive
+              </button>
             </div>
 
           </div>
