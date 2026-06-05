@@ -1,17 +1,10 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
-export type DesignMovement = 
-  | "swiss-command"    // Prompt 1: Swiss Command Center
-  | "swiss-slideout"   // Prompt 2: Swiss Slideout Drawer
-  | "swiss-dossier"    // Prompt 3: Swiss Intelligence Dossier
-  | "contrarian"       // Workspace Triage
-  | "principles"       // Legal Brief
-  | "expansionist"     // Intelligence Platform
-  | "outsider"         // Dark Conviction
-  | "executor"         // Original Swiss
-  | "hormozi"          // The Offer Machine
-  | "naval"            // Pure Signal
-  | "rubin";           // The Quiet Letter
+export type ScrollModel = 
+  | "hero-sticky"       // Model 1: Hero Sticky Focus
+  | "parallax-margin"   // Model 2: Parallax Marginalia
+  | "sticky-split"      // Model 3: Sticky Split Sync
+  | "inline-grid";      // Model 4: Inline Asymmetric Grid
 
 export type DepthLevel = "accessible" | "briefed" | "technical";
 
@@ -25,8 +18,8 @@ export interface UserProfile {
 }
 
 interface ThemeContextType {
-  movement: DesignMovement;
-  setMovement: (movement: DesignMovement) => void;
+  scrollModel: ScrollModel;
+  setScrollModel: (model: ScrollModel) => void;
   depth: DepthLevel;
   setDepth: (depth: DepthLevel) => void;
   profile: UserProfile;
@@ -36,8 +29,7 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Default to swiss-command
-  const [movement, setMovementState] = useState<DesignMovement>("swiss-command");
+  const [scrollModel, setScrollModelState] = useState<ScrollModel>("hero-sticky");
   const [depth, setDepth] = useState<DepthLevel>("briefed");
   const [profile, setProfile] = useState<UserProfile>({
     name: "Alex Mercer",
@@ -45,16 +37,13 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     seniority: "analyst",
     sectors: ["AI", "Semiconductors", "Finance"],
     isPro: false,
-    hasCompletedOnboarding: true, // Default to true so they can browse, can trigger onboarding on click
+    hasCompletedOnboarding: true,
   });
 
-  // Sync design movement to local storage
   useEffect(() => {
-    const savedMovement = localStorage.getItem("signal-movement-v5") as DesignMovement;
-    if (savedMovement) {
-      setMovementState(savedMovement);
-    } else {
-      setMovementState("swiss-command");
+    const savedModel = localStorage.getItem("signal-scroll-model") as ScrollModel;
+    if (savedModel) {
+      setScrollModelState(savedModel);
     }
 
     const savedProfile = localStorage.getItem("signal-profile-v5");
@@ -63,21 +52,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   }, []);
 
-  const setMovement = (newMovement: DesignMovement) => {
-    setMovementState(newMovement);
-    localStorage.setItem("signal-movement-v5", newMovement);
-
-    // Apply dynamic HTML body theme class
-    const body = document.documentElement;
-    body.className = ""; // clear old themes
-    body.classList.add(`theme-${newMovement}`);
-    
-    // Auto-toggle dark mode class for Outsider (Dark Conviction)
-    if (newMovement === "outsider") {
-      body.classList.add("dark");
-    } else {
-      body.classList.remove("dark");
-    }
+  const setScrollModel = (newModel: ScrollModel) => {
+    setScrollModelState(newModel);
+    localStorage.setItem("signal-scroll-model", newModel);
   };
 
   const updateProfile = (newFields: Partial<UserProfile>) => {
@@ -88,17 +65,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     });
   };
 
-  // Initial class setup on mount
-  useEffect(() => {
-    const body = document.documentElement;
-    body.classList.add(`theme-${movement}`);
-    if (movement === "outsider") {
-      body.classList.add("dark");
-    }
-  }, [movement]);
-
   return (
-    <ThemeContext.Provider value={{ movement, setMovement, depth, setDepth, profile, updateProfile }}>
+    <ThemeContext.Provider value={{ scrollModel, setScrollModel, depth, setDepth, profile, updateProfile }}>
       {children}
     </ThemeContext.Provider>
   );
