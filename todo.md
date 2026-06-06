@@ -1,31 +1,20 @@
-# SIGNAL Redesign V2: Content-Type-Aware, Explanation-Led Feed
+# SIGNAL: Swiss Command Focus & Photo Scroll Models
 
-- [ ] Phase 1: CSS & Styling Configuration
-  - [ ] Set global background to warm cream `#FAF6F0`.
-  - [ ] Configure typography: Playfair Display for headlines/masthead, Lora for body text, DM Mono for uppercase metadata/labels.
-  - [ ] Add the single terracotta accent color `#8B4513` and enforce sharp `0px` corners globally.
+- [x] Phase 1: Codebase Cleanup
+  - [x] Remove all unused layout files from `client/src/components/layouts/` (keeping only `SwissCommandLayout.tsx`).
+  - [x] Simplify `ThemeContext.tsx` to manage active **Photo Scroll Model** instead of design movements.
+  - [x] Clean up `ThemeSelector.tsx` to act as a **Scroll Model Switcher**.
 
-- [ ] Phase 2: Create Comprehensive Mock Data
-  - [ ] Define the 6 content types in `mockData.ts`:
-    1. **THE CONNECTION** (Cross-sector causal chain with visual flow A → B → C)
-    2. **THE RESEARCH READ** (Scholarly synthesis of arXiv papers with diagram motifs)
-    3. **PRACTITIONER BRIEF** (Conversational community synthesis with quote callouts)
-    4. **EARNINGS / SEC REACTION** (Data-led, big numbers as heroes)
-    5. **MULTI-SOURCE NEWS CLUSTER** (Editorial news with multiple attribution outlets)
-    6. **WORTH AN AFTERNOON** (Tool/repo spotlight with a mechanical motif)
-  - [ ] Add realistic metadata: credibility scores, source counts, comment counts, and locked premium content states.
+- [x] Phase 2: Design and Implement 4 Photo Scroll Models
+  - [x] **Model 1: Hero Sticky Focus** — Big immersive hero image at the top of the feed that scales down and pins itself elegantly to the header as you scroll.
+  - [x] **Model 2: Parallax Marginalia** — Sourced story photos float asynchronously in the margins, creating a layered depth effect during scroll.
+  - [x] **Model 3: Sticky Split Sync** — The right-hand panel image is locked in place and cross-fades between story graphics exactly when that story scrolls into view on the left.
+  - [x] **Model 4: Inline Asymmetric Grid** — Alternating left/right image cards nested inside the feed text, using subtle tilt hover transitions.
 
-- [ ] Phase 3: Build the 3 Concept Explorations
-  - [ ] **Concept A: Magazine Scroll (Default)** — High-density layout prioritizing beautiful typography, asymmetrical grid flow, custom illustrations, and large editorial spacing.
-  - [ ] **Concept B: Intelligence Dashboard** — Multi-column, high-density Bloomberg-style command dashboard showing real-time tickers, profile parameters, and rapid triage indicators.
-  - [ ] **Concept C: Curated Brief** — Focused single-column executive stream presenting a clean "Through-Line" thread connecting all of today's stories.
+- [x] Phase 3: Wire up router and controllers
+  - [x] Bind all 4 models cleanly inside `SwissCommandLayout.tsx`.
+  - [x] Update `Home.tsx` to load `SwissCommandLayout` exclusively.
 
-- [ ] Phase 4: Implement Interactive Features
-  - [ ] Create a bottom console switcher to toggle between Concept A, B, and C.
-  - [ ] Implement the depth toggle (Accessible / Briefed / Technical) that dynamically swaps the text content on all cards.
-  - [ ] Add an interactive saved takeaways panel and a simulated profile switcher.
-
-- [ ] Phase 5: Polish, Verify, & Save Checkpoint
-  - [ ] Review responsive behavior across mobile and desktop.
-  - [ ] Ensure perfect typography contrast and visual harmony matching the screenshot.
-  - [ ] Save checkpoint and deliver.
+- [x] Phase 4: Polish, Verify, & Save Checkpoint
+  - [x] Ensure smooth scrolling and perfect image contrast.
+  - [x] Save final checkpoint and deliver.

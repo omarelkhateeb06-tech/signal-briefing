@@ -1,28 +1,50 @@
-import { useState } from "react";
-import { SwissCommandLayout } from "../components/layouts/SwissCommandLayout";
-import { ThemeSelector } from "../components/ThemeSelector";
-import { OnboardingModal } from "../components/OnboardingModal";
+import React, { useState, useMemo } from "react";
+import { useTheme } from "../contexts/ThemeContext";
 import { MOCK_STORIES } from "../lib/mockData";
+import { OnboardingModal } from "../components/OnboardingModal";
+import { ThemeSelector } from "../components/ThemeSelector";
+import { SwissCommandLayout } from "../components/layouts/SwissCommandLayout";
 
 export default function Home() {
+  const { profile } = useTheme();
   const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
 
-  return (
-    <div className="min-h-screen bg-[#FAF6F0] text-[#1E1A16]">
-      {/* Primary Swiss Command Layout focusing on content-type-aware cards and scroll models */}
-      <SwissCommandLayout 
-        stories={MOCK_STORIES} 
-        onOpenOnboarding={() => setIsOnboardingOpen(true)} 
-      />
+  // Dynamic ranking engine based on user focus sectors and seniority matching
+  const processedStories = useMemo(() => {
+    const roleKey = profile.seniority === "executive" 
+      ? "executive" 
+      : profile.role.toLowerCase().includes("analyst") 
+        ? "analyst" 
+        : profile.role.toLowerCase().includes("founder") 
+          ? "founder" 
+          : "general";
 
-      {/* Concept Switcher Console Floating Panel */}
+    return [...MOCK_STORIES]
+      .map((story) => {
+        const lowercaseProfileSectors = profile.sectors.map((s: string) => s.toLowerCase());
+        const sectorMatchCount = story.sectors.filter((s: string) => lowercaseProfileSectors.includes(s.toLowerCase())).length;
+        const baseRelevance = story.relevanceScores[roleKey] || story.relevanceScores.general;
+        
+        const finalScore = Math.min(100, Math.max(0, baseRelevance + (sectorMatchCount * 10)));
+
+        return {
+          ...story,
+          calculatedScore: finalScore
+        };
+      })
+      .sort((a, b) => b.calculatedScore - a.calculatedScore);
+  }, [profile]);
+
+  return (
+    <div className="relative min-h-screen">
+      {/* Exclusively render Swiss Command Layout */}
+      <SwissCommandLayout stories={processedStories} onOpenOnboarding={() => setIsOnboardingOpen(true)} />
+
+      {/* Floating Photo Scroll Model Switcher console */}
       <ThemeSelector />
 
-      {/* Re-calibrate Profile Onboarding Modal */}
-      <OnboardingModal 
-        isOpen={isOnboardingOpen} 
-        onClose={() => setIsOnboardingOpen(false)} 
-      />
+      {/* Profile calibration onboarding modal */}
+      <OnboardingModal isOpen={isOnboardingOpen} onClose={() => setIsOnboardingOpen(false)} />
     </div>
   );
 }
