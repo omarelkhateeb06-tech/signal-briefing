@@ -1,16 +1,48 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { useTheme } from "../contexts/ThemeContext";
-import { MOCK_STORIES } from "../lib/mockData";
-import { OnboardingModal } from "../components/OnboardingModal";
+import { MOCK_STORIES, BriefingStory } from "../lib/mockData";
+import { ContrarianLayout } from "../components/layouts/ContrarianLayout";
+import { PrinciplesLayout } from "../components/layouts/PrinciplesLayout";
+import { ExpansionistLayout } from "../components/layouts/ExpansionistLayout";
+import { OutsiderLayout } from "../components/layouts/OutsiderLayout";
+import { ExecutorLayout } from "../components/layouts/ExecutorLayout";
+import { HormoziLayout } from "../components/layouts/HormoziLayout";
+import { NavalLayout } from "../components/layouts/NavalLayout";
+import { RubinLayout } from "../components/layouts/RubinLayout";
 import { ThemeSelector } from "../components/ThemeSelector";
-import { SwissCommandLayout } from "../components/layouts/SwissCommandLayout";
+import { OnboardingModal } from "../components/OnboardingModal";
 
 export default function Home() {
-  const { profile } = useTheme();
-  const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
+  const { movement, setMovement, profile } = useTheme();
+  const [isOnboardingOpen, setIsOnboardingOpen] = useState<boolean>(false);
+  const [filteredStories, setFilteredStories] = useState<BriefingStory[]>(MOCK_STORIES);
 
-  // Dynamic ranking engine based on user focus sectors and seniority matching
-  const processedStories = useMemo(() => {
+  // Default to the Contrarian design on first load
+  useEffect(() => {
+    const saved = localStorage.getItem("signal-movement-v4");
+    if (!saved) {
+      setMovement("contrarian");
+    }
+  }, [setMovement]);
+
+  // Trigger onboarding on first visit
+  useEffect(() => {
+    if (!profile.hasCompletedOnboarding) {
+      const timer = setTimeout(() => {
+        setIsOnboardingOpen(true);
+      }, 800);
+      return () => clearTimeout(timer);
+    }
+  }, [profile.hasCompletedOnboarding]);
+
+  // Dynamically filter and rank stories based on user onboarding choices
+  useEffect(() => {
+    // 1. Filter by focus sectors
+    let results = MOCK_STORIES.filter((story) => {
+      return story.sectors.some((sec) => profile.sectors.includes(sec));
+    });
+
+    // 2. Rank by relevance score based on role/seniority
     const roleKey = profile.seniority === "executive" 
       ? "executive" 
       : profile.role.toLowerCase().includes("analyst") 
@@ -19,32 +51,83 @@ export default function Home() {
           ? "founder" 
           : "general";
 
-    return [...MOCK_STORIES]
-      .map((story) => {
-        const lowercaseProfileSectors = profile.sectors.map((s: string) => s.toLowerCase());
-        const sectorMatchCount = story.sectors.filter((s: string) => lowercaseProfileSectors.includes(s.toLowerCase())).length;
-        const baseRelevance = story.relevanceScores[roleKey] || story.relevanceScores.general;
-        
-        const finalScore = Math.min(100, Math.max(0, baseRelevance + (sectorMatchCount * 10)));
+    results.sort((a, b) => {
+      const scoreA = a.relevanceScores[roleKey] || a.relevanceScores.general;
+      const scoreB = b.relevanceScores[roleKey] || b.relevanceScores.general;
+      return scoreB - scoreA;
+    });
 
-        return {
-          ...story,
-          calculatedScore: finalScore
-        };
-      })
-      .sort((a, b) => b.calculatedScore - a.calculatedScore);
+    setFilteredStories(results);
   }, [profile]);
 
   return (
     <div className="relative min-h-screen">
-      {/* Exclusively render Swiss Command Layout */}
-      <SwissCommandLayout stories={processedStories} onOpenOnboarding={() => setIsOnboardingOpen(true)} />
+      
+      {/* Render layout based on active design movement */}
+      {movement === "contrarian" && (
+        <ContrarianLayout 
+          stories={filteredStories} 
+          onOpenOnboarding={() => setIsOnboardingOpen(true)} 
+        />
+      )}
 
-      {/* Floating Photo Scroll Model Switcher console */}
+      {movement === "principles" && (
+        <PrinciplesLayout 
+          stories={filteredStories} 
+          onOpenOnboarding={() => setIsOnboardingOpen(true)} 
+        />
+      )}
+
+      {movement === "expansionist" && (
+        <ExpansionistLayout 
+          stories={filteredStories} 
+          onOpenOnboarding={() => setIsOnboardingOpen(true)} 
+        />
+      )}
+
+      {movement === "outsider" && (
+        <OutsiderLayout 
+          stories={filteredStories} 
+          onOpenOnboarding={() => setIsOnboardingOpen(true)} 
+        />
+      )}
+
+      {movement === "executor" && (
+        <ExecutorLayout 
+          stories={filteredStories} 
+          onOpenOnboarding={() => setIsOnboardingOpen(true)} 
+        />
+      )}
+
+      {movement === "hormozi" && (
+        <HormoziLayout 
+          stories={filteredStories} 
+          onOpenOnboarding={() => setIsOnboardingOpen(true)} 
+        />
+      )}
+
+      {movement === "naval" && (
+        <NavalLayout 
+          stories={filteredStories} 
+          onOpenOnboarding={() => setIsOnboardingOpen(true)} 
+        />
+      )}
+
+      {movement === "rubin" && (
+        <RubinLayout 
+          stories={filteredStories} 
+          onOpenOnboarding={() => setIsOnboardingOpen(true)} 
+        />
+      )}
+
+      {/* Floating Theme Selector control bar */}
       <ThemeSelector />
 
-      {/* Profile calibration onboarding modal */}
-      <OnboardingModal isOpen={isOnboardingOpen} onClose={() => setIsOnboardingOpen(false)} />
+      {/* Onboarding Preference modal */}
+      <OnboardingModal 
+        isOpen={isOnboardingOpen} 
+        onClose={() => setIsOnboardingOpen(false)} 
+      />
     </div>
   );
 }

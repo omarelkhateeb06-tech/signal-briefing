@@ -41,118 +41,313 @@
 }
 
 /* -------------------------------------------------
-   DESIGN 1 — SWISS COMMAND CENTER
+   DESIGN 1 — THE CONTRARIAN: "WORKSPACE TRIAGE"
    ------------------------------------------------- */
-.theme-swiss-command {
-  --font-serif-dynamic: "Playfair Display", serif;
-  --font-sans-dynamic: "Lora", serif;
-  --font-mono-dynamic: "Space Mono", monospace;
+.theme-contrarian {
+  --font-serif-dynamic: "Inter", sans-serif;
+  --font-sans-dynamic: "Inter", sans-serif;
+  --font-mono-dynamic: "JetBrains Mono", monospace;
 
-  --background: #FDFBF7;       /* Warm cream paper */
-  --foreground: #1A1A1A;       /* Deep charcoal ink */
+  --background: #FAFAFA;
+  --foreground: #1A1A1A;
   
-  --card: #F9F6F0;             /* Slightly darker cream */
+  --card: #FFFFFF;
   --card-foreground: #1A1A1A;
   
-  --popover: #FDFBF7;
+  --popover: #FAFAFA;
   --popover-foreground: #1A1A1A;
   
-  --primary: #C85A32;          /* Terracotta / copper */
-  --primary-foreground: #FDFBF7;
+  --primary: #E04E39;         /* Urgency red-orange */
+  --primary-foreground: #FFFFFF;
   
-  --secondary: #F3ECE0;
+  --secondary: #F0F0F0;
   --secondary-foreground: #555555;
   
-  --muted: #EADFC9;
-  --muted-foreground: #666666;
-  
-  --accent: #C85A32;
-  --accent-foreground: #FDFBF7;
-  
-  --destructive: #A33A12;
-  --destructive-foreground: #FFFFFF;
-  
-  --border: #1A1A1A;           /* Sharp dark borders */
-  --input: #1A1A1A;
-  --ring: #C85A32;
-  
-  --radius: 0px;               /* Sharp edges */
-}
-
-/* -------------------------------------------------
-   DESIGN 2 — SWISS SLIDE-OUT BRIEFING
-   ------------------------------------------------- */
-.theme-swiss-slideout {
-  --font-serif-dynamic: "Playfair Display", serif;
-  --font-sans-dynamic: "Lora", serif;
-  --font-mono-dynamic: "DM Mono", monospace;
-
-  --background: #FDFBF7;       /* Off-white paper */
-  --foreground: #1E201E;       /* Deep ink */
-  
-  --card: #F7F3EB;
-  --card-foreground: #1E201E;
-  
-  --popover: #FDFBF7;
-  --popover-foreground: #1E201E;
-  
-  --primary: #D25D38;          /* Burnt copper */
-  --primary-foreground: #FDFBF7;
-  
-  --secondary: #F1EAE0;
-  --secondary-foreground: #444444;
-  
-  --muted: #E6DCCE;
+  --muted: #E5E5E5;
   --muted-foreground: #777777;
   
-  --accent: #D25D38;
-  --accent-foreground: #FDFBF7;
+  --accent: #E04E39;
+  --accent-foreground: #FFFFFF;
   
-  --destructive: #B23D18;
+  --destructive: #E04E39;
   --destructive-foreground: #FFFFFF;
   
-  --border: #1E201E;
-  --input: #1E201E;
-  --ring: #D25D38;
+  --border: #EAEAEA;
+  --input: #EAEAEA;
+  --ring: #E04E39;
   
   --radius: 0px;
 }
 
 /* -------------------------------------------------
-   DESIGN 3 — SWISS INTELLIGENCE DOSSIER
+   DESIGN 2 — FIRST PRINCIPLES: "LEGAL BRIEF"
    ------------------------------------------------- */
-.theme-swiss-dossier {
+.theme-principles {
+  --font-serif-dynamic: system-ui, sans-serif;
+  --font-sans-dynamic: system-ui, sans-serif;
+  --font-mono-dynamic: monospace;
+
+  --background: #FFFFFF;
+  --foreground: #111111;
+  
+  --card: #FFFFFF;
+  --card-foreground: #111111;
+  
+  --popover: #FFFFFF;
+  --popover-foreground: #111111;
+  
+  --primary: #111111;
+  --primary-foreground: #FFFFFF;
+  
+  --secondary: #FFFFFF;
+  --secondary-foreground: #111111;
+  
+  --muted: #FFFFFF;
+  --muted-foreground: #666666;
+  
+  --accent: #111111;
+  --accent-foreground: #FFFFFF;
+  
+  --destructive: #111111;
+  --destructive-foreground: #FFFFFF;
+  
+  --border: #111111;
+  --input: #111111;
+  --ring: #111111;
+  
+  --radius: 0px;
+}
+
+/* -------------------------------------------------
+   DESIGN 3 — THE EXPANSIONIST: "INTELLIGENCE PLATFORM"
+   ------------------------------------------------- */
+.theme-expansionist {
+  --font-serif-dynamic: "Instrument Serif", serif;
+  --font-sans-dynamic: "Inter", sans-serif;
+  --font-mono-dynamic: "Space Mono", monospace;
+
+  --background: #F8F9FC;       /* Cool blue-tinted */
+  --foreground: #0F172A;       /* Slate 900 */
+  
+  --card: #FFFFFF;
+  --card-foreground: #0F172A;
+  
+  --popover: #FFFFFF;
+  --popover-foreground: #0F172A;
+  
+  --primary: #2563EB;          /* Saturated blue */
+  --primary-foreground: #FFFFFF;
+  
+  --secondary: #EEF2F6;
+  --secondary-foreground: #475569;
+  
+  --muted: #E2E8F0;
+  --muted-foreground: #64748B;
+  
+  --accent: #2563EB;
+  --accent-foreground: #FFFFFF;
+  
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+  
+  --border: #E2E8F0;
+  --input: #E2E8F0;
+  --ring: #2563EB;
+  
+  --radius: 6px;
+}
+
+/* -------------------------------------------------
+   DESIGN 4 — THE OUTSIDER: "DARK CONVICTION"
+   ------------------------------------------------- */
+.theme-outsider {
   --font-serif-dynamic: "Playfair Display", serif;
+  --font-sans-dynamic: "DM Sans", sans-serif;
+  --font-mono-dynamic: "Space Mono", monospace;
+
+  --background: #0F0F0F;       /* Near-black */
+  --foreground: #F3F4F6;       /* Gray 100 */
+  
+  --card: #171717;             /* Gray 900 */
+  --card-foreground: #F3F4F6;
+  
+  --popover: #171717;
+  --popover-foreground: #F3F4F6;
+  
+  --primary: #00D4AA;          /* Bright teal-green */
+  --primary-foreground: #0F0F0F;
+  
+  --secondary: #262626;
+  --secondary-foreground: #A3A3A3;
+  
+  --muted: #1F1F1F;
+  --muted-foreground: #737373;
+  
+  --accent: #00D4AA;
+  --accent-foreground: #0F0F0F;
+  
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+  
+  --border: #262626;
+  --input: #262626;
+  --ring: #00D4AA;
+  
+  --radius: 4px;
+}
+
+/* -------------------------------------------------
+   DESIGN 5 — THE EXECUTOR: "CURRENT + POLISH" (Original Swiss)
+   ------------------------------------------------- */
+.theme-executor {
+  --font-serif-dynamic: "Playfair Display", serif;
+  --font-sans-dynamic: "Lora", serif;
+  --font-mono-dynamic: "DM Mono", monospace;
+
+  --background: #FDFBF7;       /* Warm cream paper */
+  --foreground: #1E201E;       /* Deep charcoal ink */
+  
+  --card: #FAF6F0;
+  --card-foreground: #1E201E;
+  
+  --popover: #FDFBF7;
+  --popover-foreground: #1E201E;
+  
+  --primary: #0D9488;          /* Original teal accent */
+  --primary-foreground: #FDFBF7;
+  
+  --secondary: #F5EFE6;
+  --secondary-foreground: #555851;
+  
+  --muted: #EAE3D2;
+  --muted-foreground: #6B7280;
+  
+  --accent: #0D9488;
+  --accent-foreground: #FDFBF7;
+  
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+  
+  --border: #E5DCC6;
+  --input: #E5DCC6;
+  --ring: #0D9488;
+  
+  --radius: 0px;
+}
+
+/* -------------------------------------------------
+   DESIGN 6 — HORMOZI: "THE OFFER MACHINE"
+   ------------------------------------------------- */
+.theme-hormozi {
+  --font-serif-dynamic: "Inter", sans-serif;
+  --font-sans-dynamic: "Inter", sans-serif;
+  --font-mono-dynamic: "Space Mono", monospace;
+
+  --background: #FEFDFB;       /* Near-white warm */
+  --foreground: #1C1917;       /* Stone 900 */
+  
+  --card: #FFFFFF;
+  --card-foreground: #1C1917;
+  
+  --popover: #FFFFFF;
+  --popover-foreground: #1C1917;
+  
+  --primary: #0D9488;          /* Teal accent */
+  --primary-foreground: #FEFDFB;
+  
+  --secondary: #F5F5F4;        /* Stone 100 */
+  --secondary-foreground: #57534E;
+  
+  --muted: #E7E5E4;
+  --muted-foreground: #78716C;
+  
+  --accent: #B8860B;           /* Gold for Pro */
+  --accent-foreground: #FFFFFF;
+  
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+  
+  --border: #E7E5E4;
+  --input: #E7E5E4;
+  --ring: #0D9488;
+  
+  --radius: 4px;
+}
+
+/* -------------------------------------------------
+   DESIGN 7 — NAVAL: "PURE SIGNAL"
+   ------------------------------------------------- */
+.theme-naval {
+  --font-serif-dynamic: "Georgia", serif;
+  --font-sans-dynamic: "Georgia", serif;
+  --font-mono-dynamic: "Georgia", serif;
+
+  --background: #FFFFFF;
+  --foreground: #000000;
+  
+  --card: #FFFFFF;
+  --card-foreground: #000000;
+  
+  --popover: #FFFFFF;
+  --popover-foreground: #000000;
+  
+  --primary: #000000;
+  --primary-foreground: #FFFFFF;
+  
+  --secondary: #FFFFFF;
+  --secondary-foreground: #000000;
+  
+  --muted: #FFFFFF;
+  --muted-foreground: #666666;
+  
+  --accent: #000000;
+  --accent-foreground: #FFFFFF;
+  
+  --destructive: #000000;
+  --destructive-foreground: #FFFFFF;
+  
+  --border: #000000;
+  --input: #000000;
+  --ring: #000000;
+  
+  --radius: 0px;
+}
+
+/* -------------------------------------------------
+   DESIGN 8 — RICK RUBIN: "THE QUIET LETTER"
+   ------------------------------------------------- */
+.theme-rubin {
+  --font-serif-dynamic: "Instrument Serif", "Playfair Display", serif;
   --font-sans-dynamic: "Lora", serif;
   --font-mono-dynamic: "Space Mono", monospace;
 
-  --background: #FAF7F0;       /* Quality uncoated paper */
-  --foreground: #202020;       /* Rich charcoal */
+  --background: #FAF7F2;       /* Warm cream */
+  --foreground: #3D3A36;       /* Dark warm brown */
   
-  --card: #F4EFE6;
-  --card-foreground: #202020;
+  --card: #FAF7F2;
+  --card-foreground: #3D3A36;
   
-  --popover: #FAF7F0;
-  --popover-foreground: #202020;
+  --popover: #FAF7F2;
+  --popover-foreground: #3D3A36;
   
-  --primary: #C04E2B;          /* Muted sienna */
-  --primary-foreground: #FAF7F0;
+  --primary: #3D3A36;
+  --primary-foreground: #FAF7F2;
   
-  --secondary: #EFE9DC;
-  --secondary-foreground: #4A4A4A;
+  --secondary: #F3EFEA;
+  --secondary-foreground: #6E6A64;
   
-  --muted: #E2D7C5;
-  --muted-foreground: #6E6E6E;
+  --muted: #EDE8E0;
+  --muted-foreground: #8C8780;
   
-  --accent: #C04E2B;
-  --accent-foreground: #FAF7F0;
+  --accent: #3D3A36;
+  --accent-foreground: #FAF7F2;
   
-  --destructive: #9C381B;
-  --destructive-foreground: #FFFFFF;
+  --destructive: #8C3A2B;
+  --destructive-foreground: #FAF7F2;
   
-  --border: #202020;
-  --input: #202020;
-  --ring: #C04E2B;
+  --border: #FAF7F2;           /* Invisible borders by default */
+  --input: #FAF7F2;
+  --ring: #3D3A36;
   
   --radius: 0px;
 }
@@ -165,10 +360,18 @@
     @apply bg-background text-foreground font-sans antialiased;
   }
   
-  /* Paper textured backgrounds for Swiss layouts */
-  .theme-swiss-command body, .theme-swiss-slideout body, .theme-swiss-dossier body {
-    background-image: radial-gradient(rgba(0, 0, 0, 0.015) 1px, transparent 0);
-    background-size: 20px 24px;
+  /* Textured backgrounds for Rick Rubin and Executor */
+  .theme-rubin body, .theme-executor body {
+    background-image: radial-gradient(rgba(0, 0, 0, 0.01) 1.5px, transparent 0);
+    background-size: 24px 24px;
+  }
+
+  /* Deep space lines for Outsider (Dark Conviction) */
+  .theme-outsider body {
+    background-image: 
+      linear-gradient(rgba(15, 15, 15, 0.98), rgba(15, 15, 15, 0.98)),
+      linear-gradient(to right, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+    background-size: 100% 100%, 40px 100%;
   }
 
   h1, h2, h3, h4, h5, h6 {

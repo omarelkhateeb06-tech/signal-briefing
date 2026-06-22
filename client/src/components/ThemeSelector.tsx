@@ -1,59 +1,90 @@
 import React from "react";
-import { useTheme, ScrollModel } from "../contexts/ThemeContext";
+import { useTheme, DesignMovement } from "../contexts/ThemeContext";
+import { Sparkles, Terminal, FileText, Settings, BookOpen, Layers, Zap, Eye, CheckSquare, Coins, EyeOff, Music } from "lucide-react";
 
 export const ThemeSelector: React.FC = () => {
-  const { scrollModel, setScrollModel } = useTheme();
+  const { movement, setMovement } = useTheme();
 
-  const models: { id: ScrollModel; label: string; desc: string }[] = [
+  const themes: { id: DesignMovement; label: string; icon: any; desc: string }[] = [
     { 
-      id: "hero-sticky", 
-      label: "1. Hero Sticky", 
-      desc: "Big hero image scales down and pins to top on scroll" 
+      id: "contrarian", 
+      label: "1. WORKSPACE TRIAGE", 
+      icon: Zap, 
+      desc: "Scan speed, no serifs, urgent accents" 
     },
     { 
-      id: "parallax-margin", 
-      label: "2. Parallax Margins", 
-      desc: "Images float with slight parallax offsets in stream" 
+      id: "principles", 
+      label: "2. LEGAL BRIEF", 
+      icon: CheckSquare, 
+      desc: "Pure text, numbered items, zero fluff" 
     },
     { 
-      id: "sticky-split", 
-      label: "3. Sticky Split Sync", 
-      desc: "Right-hand panel locks and cross-fades image as you scroll left stream" 
+      id: "expansionist", 
+      label: "3. INTEL PLATFORM", 
+      icon: Layers, 
+      desc: "Multi-sector widgets, dashboard layout" 
     },
     { 
-      id: "inline-grid", 
-      label: "4. Inline Grid", 
-      desc: "Alternating image cards embedded asymmetrically in text" 
+      id: "outsider", 
+      label: "4. DARK CONVICTION", 
+      icon: Eye, 
+      desc: "Dark mode, full-screen hero story" 
+    },
+    { 
+      id: "executor", 
+      label: "5. ORIGINAL SWISS", 
+      icon: BookOpen, 
+      desc: "Clean high-density editorial print" 
+    },
+    { 
+      id: "hormozi", 
+      label: "6. THE OFFER MACHINE", 
+      icon: Coins, 
+      desc: "Completion scores, gated content" 
+    },
+    { 
+      id: "naval", 
+      label: "7. PURE SIGNAL", 
+      icon: EyeOff, 
+      desc: "Fastest possible feed, maximum signal" 
+    },
+    { 
+      id: "rubin", 
+      label: "8. THE QUIET LETTER", 
+      icon: Music, 
+      desc: "Tactile whitespace, book-like calm" 
     },
   ];
 
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 max-w-2xl w-[90%] md:w-auto bg-background/95 backdrop-blur border border-foreground p-3 shadow-2xl flex flex-col md:flex-row items-center gap-4">
-      <div className="flex items-center gap-2 shrink-0 border-b md:border-b-0 md:border-r border-foreground/15 pb-2 md:pb-0 md:pr-4">
-        <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-        </span>
-        <span className="font-mono text-[10px] font-black uppercase tracking-widest text-foreground">
-          PHOTO SCROLL LAB
-        </span>
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-card border border-border shadow-2xl p-1.5 flex flex-col md:flex-row items-center gap-2 max-w-[95vw] md:max-w-5xl rounded-md bg-white">
+      {/* Label Indicator */}
+      <div className="flex items-center gap-1.5 px-2 font-mono text-[9px] uppercase tracking-wider text-muted-foreground border-b md:border-b-0 md:border-r border-border pb-1 md:pb-0 md:pr-3 shrink-0">
+        <Sparkles className="w-3 h-3 text-primary animate-pulse" />
+        <span className="font-bold text-foreground">CHOOSE DESIGN EXPERIMENT (8 BETS):</span>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-1">
-        {models.map((m) => (
-          <button
-            key={m.id}
-            onClick={() => setScrollModel(m.id)}
-            title={m.desc}
-            className={`px-3 py-1.5 font-mono text-[9px] uppercase font-bold border transition-all cursor-pointer ${
-              scrollModel === m.id
-                ? "bg-foreground text-background border-foreground"
-                : "border-foreground/10 hover:border-foreground/40 text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            {m.label}
-          </button>
-        ))}
+      {/* Selector Buttons */}
+      <div className="flex gap-1 overflow-x-auto max-w-full pb-1 md:pb-0 scrollbar-thin">
+        {themes.map((t) => {
+          const isActive = movement === t.id;
+          const Icon = t.icon;
+          return (
+            <button
+              key={t.id}
+              onClick={() => setMovement(t.id)}
+              title={t.desc}
+              className={`px-2.5 py-1.5 font-mono text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer transition-all whitespace-nowrap rounded-sm ${
+                isActive
+                  ? "bg-primary text-primary-foreground font-black"
+                  : "bg-background text-muted-foreground border border-border hover:text-foreground hover:bg-secondary/30"
+              }`}
+            >
+              <Icon className="w-3.5 h-3.5" />
+              <span>{t.label}</span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );
